@@ -1,0 +1,35 @@
+# Node.js dependencies
+backend/node_modules/
+
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build directories for React and backend
+frontend/build/
+backend/dist/
+
+# Cache and temporary files
+.cache/
+tmp/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Coverage reports
+coverage/
+
+# MongoDB data dumps
+dump/
+
+# Miscellaneous
+*.tgz

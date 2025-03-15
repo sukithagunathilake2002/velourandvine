@@ -8,7 +8,7 @@ const menuRoutes = require("./routes/menuRoutes");
 const promotionRoutes = require("./routes/promotionRoutes");
 
 
-const chatbotRoute = require('./routes/chatbot');
+// const chatbotRoute = require('./routes/chatbot');
 
 // ✅ Load environment variables
 dotenv.config();
@@ -31,7 +31,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);
 
-app.use('/api', chatbotRoute);  
+// app.use('/api', chatbotRoute);  
 
 
 // Start server

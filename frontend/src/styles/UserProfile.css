@@ -1,0 +1,101 @@
+/* User Profile Page */
+.user-profile {
+    background: url("../assets/wine.jpg") no-repeat center center/cover;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Profile Container */
+.user-profile .profile-container {
+    background: rgba(255, 215, 0, 0.15); /* Gold tint */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+    text-align: center;
+    width: 400px;
+}
+
+/* Headings */
+.user-profile h2 {
+    color: #ffd700; /* Bright gold */
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Profile Details */
+.user-profile label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    color: gold;
+    text-align: left;
+}
+
+/* User Info (Read-Only Mode) */
+.user-profile p {
+    background-color: #222;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    text-align: left;
+}
+
+/* Input Fields (Edit Mode) */
+.user-profile input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 2px solid #ffd700;
+    border-radius: 6px;
+    background: #333;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.user-profile input::placeholder {
+    color: #bbb;
+}
+
+.user-profile input:focus {
+    border-color: white;
+    box-shadow: 0 0 10px gold;
+    background: #444;
+}
+
+/* Buttons */
+.user-profile button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    background: #ffd700;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.user-profile button:hover {
+    background: #e6b800;
+}
+
+.user-profile button:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+/* Cancel Button */
+.user-profile .cancel-btn {
+    background: gray;
+    color: white;
+}

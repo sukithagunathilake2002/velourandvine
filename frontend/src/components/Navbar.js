@@ -29,9 +29,8 @@ const Navbar = () => {
         <Link to="/cart" className="cart-container">
           <img src={cartIcon} alt="Cart" className="icon cart-icon" />
         </Link>
-        <Link to="/signin" className="profile-container">
+        <Link to="/UserProfile" className="profile-container">
           <img src={profileIcon} alt="Profile" className="icon profile-icon" />
-          <span className="signin-text">Sign In / Sign Up</span>
         </Link>
       </div>
     </nav>

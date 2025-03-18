@@ -54,7 +54,7 @@ const RegisterPage = () => {
           <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
           <button type="submit" disabled={loading}>{loading ? "Registering..." : "Register"}</button>
         </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <p>Already have an account? <a href="/LoginPage">Login</a></p>
       </div>
     </div>
   );

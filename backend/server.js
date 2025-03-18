@@ -1,27 +1,39 @@
-// server.js
-const express = require('express');
-const connectDB = require('./config/db'); // ✅ Updated path for db.js
-const dotenv = require('dotenv');
-const cors = require('cors');
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const menuRoutes = require("./routes/menuRoutes");
+const promotionRoutes = require("./routes/promotionRoutes");
 
-dotenv.config(); // Load environment variables
+
+// const chatbotRoute = require('./routes/chatbot');
+
+// ✅ Load environment variables
+dotenv.config();
+
+// ✅ Connect to MongoDB
+connectDB();
 
 const app = express();
 
-// Middleware
-app.use(express.json()); // Allows JSON data in requests
-app.use(cors()); // Enable CORS for cross-origin requests
+// ✅ Middleware
+app.use(cors());
+app.use(express.json());
 
-// Connect to MongoDB
-connectDB();
+// ✅ Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.get("/", (req, res) => res.send("API is running..."));
 
-// Basic route to test the server
-app.get('/', (req, res) => {
-  res.send('✅ Server is running successfully!');
-});
+// ✅ Start Server
+app.use("/menu", menuRoutes);
+app.use("/promotion", promotionRoutes);
 
-// Start the server
+// app.use('/api', chatbotRoute);  
+
+
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

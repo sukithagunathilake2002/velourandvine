@@ -1,5 +1,7 @@
 # Node.js dependencies
 backend/node_modules/
+README.md
+frontend/node_modules/
 
 
 # Logs
@@ -33,3 +35,4 @@ dump/
 
 # Miscellaneous
 *.tgz
+.qodo

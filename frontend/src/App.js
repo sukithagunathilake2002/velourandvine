@@ -31,12 +31,13 @@ const Layout = () => {
   );
 };
 
-const App = () => {
+
+function App() {
   return (
     <Router>
       <Layout />
     </Router>
   );
-};
+}
 
 export default App;

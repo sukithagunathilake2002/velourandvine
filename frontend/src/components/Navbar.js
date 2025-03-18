@@ -17,7 +17,7 @@ const Navbar = () => {
       {/* Center Section: Navigation Links */}
       <ul className="nav-links">
         <li><Link to="/">HOME</Link></li>
-        <li><Link to="/about">ABOUT US</Link></li>
+        <li><Link to="/AboutUs">ABOUT US</Link></li>
         <li><Link to="/menu">MENU</Link></li>
         <li><Link to="/order">ORDER</Link></li>
         <li><Link to="/reservation">RESERVATION</Link></li>

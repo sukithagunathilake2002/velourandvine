@@ -35,3 +35,4 @@ dump/
 
 # Miscellaneous
 *.tgz
+.qodo

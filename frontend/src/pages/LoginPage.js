@@ -27,6 +27,7 @@ const LoginPage = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/reserve");
+      navigate("/");
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.message || "Invalid email or password.");
@@ -46,7 +47,7 @@ const LoginPage = () => {
           <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
           <button type="submit" disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
         </form>
-        <p>Don't have an account? <a href="/register">Register</a></p>
+        <p>Don't have an account? <a href="/RegisterPage">Register</a></p>
         <p><a href="/forgot-password">Forgot Password?</a></p>
       </div>
     </div>

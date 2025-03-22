@@ -17,8 +17,8 @@ const Navbar = () => {
       {/* Center Section: Navigation Links */}
       <ul className="nav-links">
         <li><Link to="/">HOME</Link></li>
-        <li><Link to="/about">ABOUT US</Link></li>
-        <li><Link to="/menu">MENU</Link></li>
+        <li><Link to="/AboutUs">ABOUT US</Link></li>
+        <li><Link to="/Menu">MENU</Link></li>
         <li><Link to="/order">ORDER</Link></li>
         <li><Link to="/reservation">RESERVATION</Link></li>
         <li><Link to="/contact">CONTACT US</Link></li>
@@ -29,9 +29,8 @@ const Navbar = () => {
         <Link to="/cart" className="cart-container">
           <img src={cartIcon} alt="Cart" className="icon cart-icon" />
         </Link>
-        <Link to="/signin" className="profile-container">
+        <Link to="/UserProfile" className="profile-container">
           <img src={profileIcon} alt="Profile" className="icon profile-icon" />
-          <span className="signin-text">Sign In / Sign Up</span>
         </Link>
       </div>
     </nav>

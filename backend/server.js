@@ -6,7 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const promotionRoutes = require("./routes/promotionRoutes");
-
+const orderRoutes = require("./routes/OrderRoutes");
 
 // const chatbotRoute = require('./routes/chatbot');
 
@@ -30,6 +30,8 @@ app.get("/", (req, res) => res.send("API is running..."));
 // ✅ Start Server
 app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);
+app.use('/orders', orderRoutes);
+
 
 // app.use('/api', chatbotRoute);  
 

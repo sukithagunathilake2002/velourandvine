@@ -10,6 +10,9 @@ import LoginPage from"./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfile from "./pages/UserProfile";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+import OrderPage from './components/OrderPage';
+import StaffOrderPage from './components/StaffOrderPage';
+import EditOrderPage from './components/EditOrderPage';
 
 
 const Layout = () => {
@@ -30,8 +33,10 @@ const Layout = () => {
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
         <Route path="/UserProfile" element={<UserProfile/>}/>
         <Route path="/ForgotPasswordPage" element={<ForgotPasswordPage/>}/>
-        
-        
+        <Route path="/order" element={<OrderPage/>} />
+        <Route path="/staff/orders" element={<StaffOrderPage />} />
+        <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
+    
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}  {/* Hide footer if on specific paths */}
     </>

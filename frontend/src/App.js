@@ -6,10 +6,7 @@ import Home from "./components/Home";
 import AdminPage from "./components/AdminPage";
 import Menu from "./components/Menu";
 import AboutUs from "./components/About";
-import LoginPage from"./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import UserProfile from "./pages/UserProfile";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+
 
 
 const Layout = () => {
@@ -26,10 +23,6 @@ const Layout = () => {
         <Route path="/admindashboard" element={<AdminPage/>} />
         <Route path="/Menu" element={<Menu/>} />
         <Route path="/AboutUs" element={<AboutUs/>} />
-        <Route path="/LoginPage" element={<LoginPage/>}/>
-        <Route path="/RegisterPage" element={<RegisterPage/>}/>
-        <Route path="/UserProfile" element={<UserProfile/>}/>
-        <Route path="/ForgotPasswordPage" element={<ForgotPasswordPage/>}/>
         
         
       </Routes>
@@ -38,13 +31,12 @@ const Layout = () => {
   );
 };
 
-
-function App() {
+const App = () => {
   return (
     <Router>
       <Layout />
     </Router>
   );
-}
+};
 
 export default App;

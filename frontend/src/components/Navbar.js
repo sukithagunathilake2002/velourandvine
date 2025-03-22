@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 import cartIcon from "../assets/carticon.jpg";
 import profileIcon from "../assets/profileicon.jpeg";
+import './index.css'
 
 const Navbar = () => {
   return (

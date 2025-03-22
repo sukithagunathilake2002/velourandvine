@@ -1,0 +1,56 @@
+.reservation-list-container {
+    padding: 20px;
+    background-color: beige;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: gold;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .message {
+    color: green;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .reservation-table th,
+  .reservation-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+  .reservation-table th {
+    background-color: black;
+    color: white;
+  }
+  
+  .update-button {
+    margin-top: 5px;
+    background-color: gold;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .update-button:hover {
+    background-color: #d4af37;
+  }
+  

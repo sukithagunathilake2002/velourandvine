@@ -45,5 +45,6 @@ const deleteProfile = async (req, res) => {
   }
 };
 
+
 // ✅ Make sure functions are defined before exporting
 module.exports = { getProfile, updateProfile, deleteProfile };

@@ -26,7 +26,7 @@ const LoginPage = () => {
       // ✅ Store token and redirect to profile
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/profile");
+      navigate("/reserve");
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.message || "Invalid email or password.");

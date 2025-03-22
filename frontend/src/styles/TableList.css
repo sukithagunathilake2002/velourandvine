@@ -1,0 +1,85 @@
+/* Apply styles only to TableList component */
+.table-container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    background-color: #f5f5dc; /* Beige Background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  h2 {
+    color: #d4af37; /* Gold */
+    margin-bottom: 20px;
+  }
+  
+  /* Table Styling */
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white; /* White Table Background */
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid #d4af37; /* Gold Borders */
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .custom-table th {
+    background-color: #d4af37; /* Gold Header */
+    color: white;
+  }
+  
+  /* Input and Select Fields */
+  td input, td select {
+    width: 90%;
+    padding: 5px;
+    border: 1px solid #d4af37; /* Gold Border */
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  /* Button Styles */
+  button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  /* Edit Button */
+  .edit-btn {
+    background-color: #d4af37; /* Gold */
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #b5902c; /* Darker Gold */
+  }
+  
+  /* Save Button */
+  .save-btn {
+    background-color: #d4af37; /* Gold */
+    color: white;
+  }
+  
+  .save-btn:hover {
+    background-color: #b5902c; /* Darker Gold */
+  }
+  
+  /* Delete Button */
+  .delete-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+  }
+  
+  .delete-btn:hover {
+    background-color: #a71d2a; /* Darker Red */
+  }
+  

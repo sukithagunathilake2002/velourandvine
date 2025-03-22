@@ -6,6 +6,8 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const promotionRoutes = require("./routes/promotionRoutes");
+const reservationRoutes = require("./routes/ReservationRoutes");
+const tableRoutes = require("./routes/TableRoutes");
 
 
 // const chatbotRoute = require('./routes/chatbot');
@@ -18,6 +20,13 @@ connectDB();
 
 const app = express();
 
+// ✅ CORS Configuration
+const corsOptions = {
+    origin: "http://localhost:3000", // Allow frontend access
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  };
+
 // ✅ Middleware
 app.use(cors());
 app.use(express.json());
@@ -26,12 +35,15 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.get("/", (req, res) => res.send("API is running..."));
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/tables", tableRoutes);
 
-// ✅ Start Server
+
 app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);
 
-// app.use('/api', chatbotRoute);  
+
+// ✅ Start Server
 
 
 // Start server

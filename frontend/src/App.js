@@ -14,6 +14,10 @@ import OrderPage from './components/OrderPage';
 import StaffOrderPage from './components/StaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
 import ReservationForm from "./components/ReservationForm";
+import ReservationList from "./components/ReservationList";
+import TableIllustration from "./components/TableIllustration";
+import TableList from "./components/TableList";
+import AddTable from "./components/AddTable";
 
 
 const Layout = () => {
@@ -35,7 +39,12 @@ const Layout = () => {
         <Route path="/staff/orders" element={<StaffOrderPage />} />
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
-    
+        <Route path="/reserve" element={<ReservationForm/>} />
+        <Route path="/reservations" element={<ReservationList/>} />
+        <Route path="/tableplan" element={<TableIllustration/>} />
+        <Route path="/tables" element={<TableList/>} />
+        <Route path="/add-table" element={<AddTable/>} />
+
         <Route path="/admindashboard" element={<AdminPage />} />
         <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}
         <Route path="/aboutus" element={<AboutUs />} />

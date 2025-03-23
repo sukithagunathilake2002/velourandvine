@@ -1,0 +1,105 @@
+/* OrderPage.css - Clean, visible, compact form layout */
+
+.order-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    color: #111; /* darker text for contrast */
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 2rem 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #000;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    color: #222;
+    font-weight: 600;
+  }
+  
+  form label {
+    font-weight: 600;
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1rem;
+    color: #000; /* label color darker */
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1.2rem;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    background-color: #fefefe;
+    color: #111;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: gold;
+    background-color: #fff;
+    outline: none;
+  }
+  
+  .menu-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.2rem 0;
+  }
+  
+  .menu-item label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #111;
+    margin-bottom: 0.5rem;
+  }
+  
+  .menu-item input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .menu-item input[type="number"],
+  .menu-item input[type="text"] {
+    margin-top: 0.25rem;
+  }
+  
+  button[type="submit"] {
+    background-color: gold;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #e6c200;
+  }
+  
+  .error-message {
+    color: crimson;
+    font-size: 0.85rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+  }
+  

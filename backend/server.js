@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const promotionRoutes = require("./routes/promotionRoutes");
+const orderRoutes = require("./routes/OrderRoutes");
 const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
 
@@ -41,6 +42,8 @@ app.use("/api/tables", tableRoutes);
 
 app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);
+app.use('/orders', orderRoutes);
+
 
 
 // ✅ Start Server

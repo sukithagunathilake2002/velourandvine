@@ -18,6 +18,7 @@
     display: block;
     margin-top: 10px;
     font-weight: bold;
+    color: black;
   }
   
   input, select {

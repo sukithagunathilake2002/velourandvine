@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import "../styles/AddTable.css";
@@ -13,6 +14,7 @@ const AddTable = () => {
     reset,
     formState: { errors },
   } = useForm();
+    const navigate = useNavigate();
 
   // ✅ Submit Form Data
   const onSubmit = async (data) => {
@@ -61,7 +63,7 @@ const AddTable = () => {
         {errors.capacity && <p className="error">{errors.capacity.message}</p>}
 
         {/* Submit Button */}
-        <button type="submit">Add Table</button>
+        <button type="submit" onClick={() => navigate('/tables')}>Add Table</button>
       </form>
     </div>
   );

@@ -1,32 +1,28 @@
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
-import UserProfile from "./pages/UserProfile";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage"; 
-import AddTable from "./components/AddTable";
-import TableList from "./components/TableList"; 
-import TableIllustration from "./components/TableIllustration";
-import Home from "./components/Home";
-import ReservationForm from "./components/ReservationForm";
-import ReservationList from "./components/ReservationList";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Home from "./components/Home";
 import AdminPage from "./components/AdminPage";
-import Menu from "./components/Menu";
+import MenuPage from "./pages/MenuPage"; // Import MenuPage here
 import AboutUs from "./components/About";
-import { useLocation } from "react-router-dom";
+import LoginPage from"./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import UserProfile from "./pages/UserProfile";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+import OrderPage from './components/OrderPage';
+import StaffOrderPage from './components/StaffOrderPage';
+import EditOrderPage from './components/EditOrderPage';
 
 
 const Layout = () => {
   const location = useLocation();
-  const hideFooterOnPaths = ["/login", "/register"];  // Add paths where footer should be hidden
+  const hideFooterOnPaths = ["/login", "/register"]; // Paths where the footer should be hidden
 
   return (
     <>
       <Navbar />
       <Routes>
-
-        
         <Route path="/" element={<Home />} />
         <Route path="/admindashboard" element={<AdminPage/>} />
         <Route path="/Menu" element={<Menu/>} />
@@ -35,30 +31,26 @@ const Layout = () => {
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
         <Route path="/UserProfile" element={<UserProfile/>}/>
         <Route path="/ForgotPasswordPage" element={<ForgotPasswordPage/>}/>
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/add-table" element={<AddTable />} />
-        <Route path="/reserve" element={<ReservationForm />} />
-        <Route path="/reservations" element={<ReservationList />} />
-        <Route path="/tables" element={<TableList />} /> 
-        <Route path="/tableplan" element={<TableIllustration />} />
-        
+        <Route path="/order" element={<OrderPage/>} />
+        <Route path="/staff/orders" element={<StaffOrderPage />} />
+        <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
+    
+        <Route path="/admindashboard" element={<AdminPage />} />
+        <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}
+        <Route path="/aboutus" element={<AboutUs />} />
         
       </Routes>
-      {!hideFooterOnPaths.includes(location.pathname) && <Footer />}  {/* Hide footer if on specific paths */}
+      {!hideFooterOnPaths.includes(location.pathname) && <Footer />}
     </>
   );
 };
 
-
-function App() {
+const App = () => {
   return (
     <Router>
       <Layout />
     </Router>
   );
-}
+};
 
 export default App;

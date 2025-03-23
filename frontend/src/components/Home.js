@@ -6,10 +6,9 @@ import image2 from "../assets/image2.png";
 import image3 from "../assets/image3.png";
 import image4 from "../assets/image4.png";
 import image5 from "../assets/image5.png";
-import image6 from "../assets/image6.png";
  
 
-// Import the Footer component
+
 
 const Home = () => {
   const carouselImages = [image1, image2, image3, image4];

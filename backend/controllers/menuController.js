@@ -1,6 +1,6 @@
 const Menu = require("../models/menuModel");
 
-// ✅ Add a new menu item
+//  Add a new menu item
 exports.addMenu = async (req, res) => {
     try {
         const { name, category, description, price, image } = req.body;
@@ -21,7 +21,7 @@ exports.addMenu = async (req, res) => {
     }
 };
 
-// ✅ Get all menu items (with filtering by category or name)
+// Get all menu items (with filtering by category or name)
 exports.getMenus = async (req, res) => {
     try {
         let { category, name } = req.query;
@@ -32,7 +32,7 @@ exports.getMenus = async (req, res) => {
 
         let menus = await Menu.find(query);
 
-        // ✅ Attach actual price dynamically
+        //  Attach actual price dynamically
         menus = menus.map(menu => ({
             ...menu._doc,
             actualPrice: menu.getActualPrice(),
@@ -45,7 +45,7 @@ exports.getMenus = async (req, res) => {
     }
 };
 
-// ✅ Update a menu item
+//  Update a menu item
 exports.updateMenu = async (req, res) => {
     try {
         const { id } = req.params;
@@ -60,7 +60,7 @@ exports.updateMenu = async (req, res) => {
     }
 };
 
-// ✅ Delete a menu item
+//  Delete a menu item
 exports.deleteMenu = async (req, res) => {
     try {
         const { id } = req.params;

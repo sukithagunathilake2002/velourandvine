@@ -1,0 +1,93 @@
+/* Dark Theme Modal Styles at the Top of the Page */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top of the page */
+    padding-top: 20px; /* Space from the top */
+    z-index: 1000;
+    animation: slideDown 0.3s ease-in-out; /* Animation for sliding down */
+  }
+  
+  .modal-content {
+    background-color: #333; /* Dark background for the modal */
+    color: #f1f1f1; /* Light text color for contrast */
+    padding: 15px 25px;
+    border-radius: 8px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #f39c12; /* Gold color for headings */
+  }
+  
+  .modal p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .modal ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 1.1em;
+  }
+  
+  .modal li {
+    margin: 5px 0;
+  }
+  
+  .show-weather-btn {
+    background-color: #f39c12; /* Gold color for the button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1.1em;
+  }
+  
+  .show-weather-btn:hover {
+    background-color: #e67e22;
+  }
+  
+  .close-modal-btn {
+    background-color: #e74c3c; /* Red color for close button */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1.1em;
+  }
+  
+  .close-modal-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Modal Header Styling */
+  .modal h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  /* Animation for sliding down the modal */
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  

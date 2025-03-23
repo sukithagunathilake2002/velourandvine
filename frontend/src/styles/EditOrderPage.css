@@ -1,0 +1,74 @@
+/* General Page Styling for EditOrderPage */
+.edit-order-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-order-page h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .edit-order-page label {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .edit-order-page input,
+  .edit-order-page select,
+  .edit-order-page button {
+    font-family: 'Arial', sans-serif;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 1rem;
+    margin: 8px 0;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    border: 1px solid #ddd;
+  }
+  
+  .edit-order-page input[type="number"] {
+    width: 100%;
+  }
+  
+  .edit-order-page button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 12px 18px;
+    font-size: 1.1rem;
+  }
+  
+  .edit-order-page button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design for EditOrderPage */
+  @media (max-width: 768px) {
+    .edit-order-page {
+      padding: 20px;
+    }
+  
+    .edit-order-page h1 {
+      font-size: 2rem;
+    }
+  
+    .edit-order-page input,
+    .edit-order-page select,
+    .edit-order-page button {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  }
+  

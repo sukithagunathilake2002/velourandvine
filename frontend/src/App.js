@@ -34,7 +34,7 @@ const Layout = () => {
         <Route path="/order" element={<OrderPage/>} />
         <Route path="/staff/orders" element={<StaffOrderPage />} />
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
-        <Route path="/tableplan" element={<ReservationForm />} />
+        <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
     
         <Route path="/admindashboard" element={<AdminPage />} />
         <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}

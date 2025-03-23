@@ -13,6 +13,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage"
 import OrderPage from './components/OrderPage';
 import StaffOrderPage from './components/StaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
+import ReservationForm from "./components/ReservationForm";
 
 
 const Layout = () => {
@@ -25,7 +26,6 @@ const Layout = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admindashboard" element={<AdminPage/>} />
-        <Route path="/Menu" element={<Menu/>} />
         <Route path="/AboutUs" element={<AboutUs/>} />
         <Route path="/LoginPage" element={<LoginPage/>}/>
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
@@ -34,6 +34,7 @@ const Layout = () => {
         <Route path="/order" element={<OrderPage/>} />
         <Route path="/staff/orders" element={<StaffOrderPage />} />
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
+        <Route path="/tableplan" element={<ReservationForm />} />
     
         <Route path="/admindashboard" element={<AdminPage />} />
         <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}

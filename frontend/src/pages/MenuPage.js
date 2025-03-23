@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Menuco.css"; // Your existing CSS file
 import "../styles/ModalMessage.css"; // Import the modal-specific CSS
-import menuHeaderImg from "../assets/image6.png";
 import AppetizersImg from "../assets/AppetizerMe.png";
 import MainCoursesImg from "../assets/MainCoursesMe.png";
 import SaladsImg from "../assets/SaladsMe.png";

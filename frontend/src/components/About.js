@@ -23,7 +23,7 @@ const AboutUs = () => {
           electronic typesetting, remaining essentially unchanged.
         </p>
         
-        {/* Video Section */}
+        {/* Video Section  done */}
         <div className="about-us-video-container">
           <iframe
             className="about-us-video"

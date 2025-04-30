@@ -1,0 +1,64 @@
+.menu-list-container {
+    padding: 20px;
+    color: black; /* Set default text color */
+  }
+  
+  .filter-section {
+    margin-bottom: 15px;
+    color: black;
+  }
+  
+  .menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: black;
+  }
+  
+  .menu-table th,
+  .menu-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    color: black;
+  }
+  
+  .menu-table th {
+    background-color: #f4f4f4;
+    color: black;
+  }
+  
+  .menu-table img.menu-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  button {
+    margin: 2px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: black;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    color: black;
+  }
+  

@@ -72,8 +72,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: white;
-    border: none;
+    /*color: white; this is a com on stylwe.. pls change the class name
+    border: none;*/
   }
   
   .edit-btn {

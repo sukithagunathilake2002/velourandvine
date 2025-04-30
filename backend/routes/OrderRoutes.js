@@ -9,4 +9,7 @@ router.get("/all", orderController.getOrders); // View all orders or orders by c
 router.put("/update-status/:id", orderController.updateOrderStatus); // Update the status of an order
 router.delete("/delete/:id", orderController.deleteOrder); // Delete an order
 
+// Route to fetch recommendations from Flask
+router.get("/recommendations/:customerId", orderController.getRecommendations);
+
 module.exports = router;

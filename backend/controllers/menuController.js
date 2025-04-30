@@ -3,24 +3,51 @@ const Menu = require("../models/menuModel");
 //  Add a new menu item
 exports.addMenu = async (req, res) => {
     try {
-        const { name, category, description, price, image } = req.body;
-
-        // Validate category
-        const validCategories = ["Appetizers", "Main Courses", "Salads", "Desserts", "Wine Selection", "Signature Cocktails"];
-        if (!validCategories.includes(category)) {
-            return res.status(400).json({ message: "Invalid category" });
-        }
-
-        const newMenu = new Menu({ name, category, description, price, image });
-
-        await newMenu.save();
-        res.status(201).json({ message: "Menu item added successfully", menu: newMenu });
-
+      const { name, category, description } = req.body;
+      const price = parseFloat(req.body.price);
+      const image = req.file ? req.file.path : "";
+  
+      console.log("Request body:", req.body);
+      console.log("Uploaded file:", req.file);
+  
+      // Basic validation
+      if (!name || !category || !description || isNaN(price)) {
+        return res.status(400).json({ message: "Invalid input fields." });
+      }
+  
+      const validCategories = [
+        "Appetizers",
+        "Main Courses",
+        "Salads",
+        "Desserts",
+        "Wine Selection",
+        "Signature Cocktails",
+      ];
+  
+      if (!validCategories.includes(category)) {
+        return res.status(400).json({ message: "Invalid category" });
+      }
+  
+      const newMenu = new Menu({
+        name,
+        category,
+        description,
+        price,
+        image,
+      });
+  
+      await newMenu.save();
+  
+      res.status(201).json({
+        message: "Menu item added successfully",
+        menu: newMenu,
+      });
+  
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      console.error("Add menu error:", error);
+      res.status(500).json({ error: error.message });
     }
-};
-
+  };
 // Get all menu items (with filtering by category or name)
 exports.getMenus = async (req, res) => {
     try {
@@ -74,3 +101,4 @@ exports.deleteMenu = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+

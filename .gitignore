@@ -1,5 +1,6 @@
 # Node.js dependencies
 backend/node_modules/
+README.md
 frontend/node_modules/
 
 
@@ -34,3 +35,13 @@ dump/
 
 # Miscellaneous
 *.tgz
+.qodo
+
+#Python virtual environment 
+venv/
+
+#Python cash
+__pycache__/
+*.__pycache__
+
+

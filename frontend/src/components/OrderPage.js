@@ -16,12 +16,26 @@ const OrderPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState({});
   const [paymentType, setPaymentType] = useState("");
+  const [recommendations, setRecommendations] = useState([]); // ✅ NEW
+  const [showModal, setShowModal] = useState(false); // ✅ NEW
 
-  // Fetch menu items
+  const customerId = "67dd6bcf1e90c8c07c3b1267"; // Replace with dynamic user ID
+
+  // ✅ Fetch menu + AI recommendations (UPDATED ROUTE + AUTO-MODAL)
   useEffect(() => {
     axios.get("http://localhost:5000/menu/all")
       .then(res => setMenuItems(res.data))
       .catch(err => console.error("Error fetching menu items:", err));
+
+    axios.get(`http://localhost:5000/order-recommendations/${customerId}`) // ✅ NEW ROUTE
+      .then(res => {
+        const recs = res.data.recommendations;
+        setRecommendations(recs);
+        if (recs.length > 0) {
+          setShowModal(true); // ✅ NEW: Show modal automatically
+        }
+      })
+      .catch(err => console.error("Error fetching recommendations:", err));
   }, []);
 
   // Handle checkbox toggle
@@ -74,8 +88,51 @@ const OrderPage = () => {
   return (
     <div className="order-page">
       <h1>Create an Order</h1>
+
+      {/* ✅ Button to view AI recommendations */}
+      {recommendations.length > 0 && (
+        <button onClick={() => setShowModal(true)} className="recommendation-btn">
+          View AI Recommendations
+        </button>
+      )}
+
+      {/* ✅ AI Recommendations Modal */}
+      {showModal && (
+        <div className="recommendation-modal">
+          <div className="recommendation-modal-content">
+            <h2>Recommended for You</h2>
+            <ul>
+              {recommendations.map((dish, index) => (
+                <li key={index}>
+                  <strong>{dish.name}</strong>: {dish.description}
+                  <br />
+                  {/* ✅ Reorder Button */}
+                  <button
+                    type="button"
+                    className="reorder-btn"
+                    onClick={() => {
+                      const item = menuItems.find(m => m.name === dish.name);
+                      if (item) {
+                        setSelectedItems(prev => ({
+                          ...prev,
+                          [item._id]: { quantity: 1, specialInstructions: "" }
+                        }));
+                      }
+                    }}
+                  >
+                    Reorder
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={() => setShowModal(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Order Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" {...register("customerId")} value="67dd6bcf1e90c8c07c3b1267" />
+        <input type="hidden" {...register("customerId")} value={customerId} />
 
         <h2>Menu Items</h2>
         {menuItems.map(item => (
@@ -122,7 +179,6 @@ const OrderPage = () => {
           <option value="Card">Card</option>
         </select>
 
-        {/* Conditional Card Fields */}
         {paymentType === "Card" && (
           <div className="card-section">
             <label>Cardholder Name</label>

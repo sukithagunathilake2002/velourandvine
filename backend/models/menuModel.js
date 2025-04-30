@@ -18,6 +18,7 @@ const menuSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // ✅ Calculate Actual Price with Promotion
+// done actual price 
 menuSchema.methods.getActualPrice = function () {
     const now = new Date();
     if (this.promotion && this.promotion.startDate && this.promotion.endDate) {

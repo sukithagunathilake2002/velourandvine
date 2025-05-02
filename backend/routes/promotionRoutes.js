@@ -1,12 +1,9 @@
-// routes/promotionController.js
-const express = require('express');
+// routes/promotionRoutes.js
+const express = require("express");
 const router = express.Router();
-const promotionController = require('../controllers/promotionController');
+const promotionController = require("../controllers/promotionController");
 
-// Add or update promotion
-router.post('/:id/promotion', promotionController.addOrUpdatePromotion);
-
-// Remove promotion
-router.delete('/:id/promotion', promotionController.removePromotion);
+router.put("/:id", promotionController.addOrUpdatePromotion);
+router.delete("/:id", promotionController.removePromotion);
 
 module.exports = router;

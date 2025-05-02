@@ -15,6 +15,9 @@ import EditOrderPage from './components/EditOrderPage';
 import AdminMenuPage from "./pages/AdminMenuPage";
 import ContactForm from './components/ContactForm';
 import AdminMessageList from './components/AdminMessageList';
+import CustomerMenuView from './pages/CustomerMenuView';
+
+
 
 
 const Layout = () => {
@@ -42,6 +45,8 @@ const Layout = () => {
         <Route path="/AdminMenus" element={<AdminMenuPage />} />
         <Route path="/cuntactus" element={<ContactForm/>}/>
         <Route path="/admincuntact" element={<AdminMessageList/>}/>
+
+        <Route path="/customermenu" element={<CustomerMenuView/>}/>
 
         
        

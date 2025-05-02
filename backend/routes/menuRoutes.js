@@ -22,4 +22,7 @@ router.get("/all", menuController.getMenus);
 router.put("/update/:id", menuController.updateMenu);
 router.delete("/delete/:id", menuController.deleteMenu);
 
+router.get("/promotions/report", menuController.getPromotionsReport);
+
+
 module.exports = router;

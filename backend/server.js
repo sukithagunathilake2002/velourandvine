@@ -42,7 +42,7 @@ app.use("/api/tables", tableRoutes);
 
 
 app.use("/api/menus", menuRoutes); // ✅ Correct
-app.use("/promotion", promotionRoutes);
+app.use("/api/promotions", promotionRoutes);
 app.use('/orders', orderRoutes);
 
 //cuntact us 
@@ -50,7 +50,9 @@ app.use('/api/contact', contactRoutes);
 
 
 
-//  Start Server
+// Make uploads folder publicly accessible
+app.use("/uploads", express.static("uploads"));
+
 
 
 // Start server

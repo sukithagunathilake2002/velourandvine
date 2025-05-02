@@ -9,6 +9,7 @@ const promotionRoutes = require("./routes/promotionRoutes");
 const orderRoutes = require("./routes/OrderRoutes");
 const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
+const contactRoutes = require('./routes/contactRoutes');
 
 
 // const chatbotRoute = require('./routes/chatbot');
@@ -44,10 +45,8 @@ app.use("/api/menus", menuRoutes); // ✅ Correct
 app.use("/promotion", promotionRoutes);
 app.use('/orders', orderRoutes);
 
-
-const promotionRoutes = require('./routes/promotionController');
-app.use('/api/menus', promotionRoutes);
-
+//cuntact us 
+app.use('/api/contact', contactRoutes);
 
 
 

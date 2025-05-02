@@ -13,6 +13,8 @@ import OrderPage from './components/OrderPage';
 import StaffOrderPage from './components/StaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
 import AdminMenuPage from "./pages/AdminMenuPage";
+import ContactForm from './components/ContactForm';
+import AdminMessageList from './components/AdminMessageList';
 
 
 const Layout = () => {
@@ -38,6 +40,8 @@ const Layout = () => {
        
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/AdminMenus" element={<AdminMenuPage />} />
+        <Route path="/cuntactus" element={<ContactForm/>}/>
+        <Route path="/admincuntact" element={<AdminMessageList/>}/>
 
         
        

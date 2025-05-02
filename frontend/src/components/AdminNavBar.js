@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { FaUtensils, FaClipboardList, FaRobot, FaBars, FaTimes } from "react-icons/fa";
-import { MdOutlineRestaurantMenu } from "react-icons/md";
+import { FaBars, FaTimes } from "react-icons/fa";
 import "../styles/AdminNavBar.css";
 import { Link } from "react-router-dom";
-
 
 function AdminNavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,22 +19,23 @@ function AdminNavBar() {
         <nav>
           <ul>
             <li className="nav-item">
-              <Link to={"/AddMenuPage"} className="Nav-Link">
-              <FaUtensils className="icon" /> <span className={isOpen ? "show" : "hide"}>Add Menu</span>
+              <Link to="/AdminMenus" className="Nav-Link">
+                <span className={isOpen ? "show" : "hide"}>Menus</span>
               </Link>
             </li>
-
             <li className="nav-item">
-              <MdOutlineRestaurantMenu className="icon" /> <span className={isOpen ? "show" : "hide"}>Reservations</span>
+              <span className={isOpen ? "show" : "hide"}>Reservations</span>
             </li>
             <li className="nav-item">
-              <MdOutlineRestaurantMenu className="icon" /> <span className={isOpen ? "show" : "hide"}>Menu List</span>
+              <span className={isOpen ? "show" : "hide"}>Menu List</span>
             </li>
             <li className="nav-item">
-              <FaClipboardList className="icon" /> <span className={isOpen ? "show" : "hide"}>Order Details</span>
+              <span className={isOpen ? "show" : "hide"}>Order Details</span>
             </li>
             <li className="nav-item">
-              <FaRobot className="icon" /> <span className={isOpen ? "show" : "hide"}>AI Features</span>
+            <Link to="/admincuntact" className="Nav-Link">
+              <span className={isOpen ? "show" : "hide"}>Contact Us</span>
+            </Link>
             </li>
           </ul>
         </nav>

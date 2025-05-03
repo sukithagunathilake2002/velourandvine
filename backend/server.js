@@ -28,6 +28,7 @@ const corsOptions = {
   credentials: true,
 };
 
+
 // ✅ Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -42,6 +43,10 @@ app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);
 app.use("/orders", orderRoutes);
 app.use("/orders/recommendations", orderRecommendationsRoutes); // ✅ Added this line
+
+//shevi
+const OrderRoutes = require("./routes/recentOrders");
+app.use("/recent-orders", OrderRoutes); // Your route prefix
 
 // ✅ Start Server
 const PORT = process.env.PORT || 5000;

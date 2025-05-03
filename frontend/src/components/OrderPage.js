@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import OrderReminderModal from "../components/OrderReminderModal";
 import '../styles/OrderPage.css';
 
 const OrderPage = () => {
@@ -9,47 +10,54 @@ const OrderPage = () => {
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm({
-    shouldUnregister: false
-  });
+  } = useForm({ shouldUnregister: false });
 
   const [menuItems, setMenuItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState({});
   const [paymentType, setPaymentType] = useState("");
-  const [recommendations, setRecommendations] = useState([]); // ✅ NEW
-  const [showModal, setShowModal] = useState(false); // ✅ NEW
+  const [recommendations, setRecommendations] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [recentOrder, setRecentOrder] = useState(null);
+  const [showRecentModal, setShowRecentModal] = useState(false);
 
-  const customerId = "67dd6bcf1e90c8c07c3b1267"; // Replace with dynamic user ID
+  const customerId = "67dd6bcf1e90c8c07c3b1267"; // Replace with dynamic ID
 
-  // ✅ Fetch menu + AI recommendations (UPDATED ROUTE + AUTO-MODAL)
   useEffect(() => {
+    // Fetch menu
     axios.get("http://localhost:5000/menu/all")
       .then(res => setMenuItems(res.data))
       .catch(err => console.error("Error fetching menu items:", err));
 
-    axios.get(`http://localhost:5000/order-recommendations/${customerId}`) // ✅ NEW ROUTE
+    // Fetch AI recommendations
+    axios.get(`http://localhost:5000/order-recommendations/${customerId}`)
       .then(res => {
         const recs = res.data.recommendations;
         setRecommendations(recs);
-        if (recs.length > 0) {
-          setShowModal(true); // ✅ NEW: Show modal automatically
-        }
+        if (recs.length > 0) setShowModal(true);
       })
       .catch(err => console.error("Error fetching recommendations:", err));
+
+    // Fetch recent order
+    axios.get(`http://localhost:5000/recent-orders/${customerId}`)
+      .then(res => {
+        setRecentOrder(res.data);
+        setShowRecentModal(true);
+      })
+      .catch(err => console.log("No recent order or error:", err));
   }, []);
 
   // Handle checkbox toggle
   const handleCheck = (id, checked) => {
-    setSelectedItems(prev => ({
-      ...prev,
-      [id]: checked ? { quantity: 1, specialInstructions: "" } : undefined
-    }));
+    setSelectedItems(prev => (
+      checked ? { ...prev, [id]: { quantity: 1, specialInstructions: "" } }
+              : { ...prev, [id]: undefined }
+    ));
   };
 
-  // Submit form
+  // Submit order
   const onSubmit = async (data) => {
     const items = Object.entries(selectedItems)
-      .filter(([id, val]) => val)
+      .filter(([_, val]) => val)
       .map(([menuItemId]) => ({
         menuItemId,
         quantity: parseInt(data[`quantity_${menuItemId}`]) || 1,
@@ -58,7 +66,7 @@ const OrderPage = () => {
       }));
 
     const orderData = {
-      customerId: data.customerId || "",
+      customerId,
       items,
       paymentMethod: data.paymentMethod,
       ...(data.paymentMethod === "Card" && {
@@ -79,6 +87,19 @@ const OrderPage = () => {
       reset();
       setSelectedItems({});
       setPaymentType("");
+
+      // Save most recent order
+      if (items.length > 0) {
+        const recentItem = menuItems.find(m => m._id === items[0].menuItemId);
+        if (recentItem) {
+          await axios.post("http://localhost:5000/recent-orders", {
+            userId: customerId,
+            itemName: recentItem.name,
+            quantity: items[0].quantity
+          });
+        }
+      }
+
     } catch (err) {
       console.error("❌ Failed to place order", err);
       alert("Failed to place order.");
@@ -89,14 +110,32 @@ const OrderPage = () => {
     <div className="order-page">
       <h1>Create an Order</h1>
 
-      {/* ✅ Button to view AI recommendations */}
+      {/* Recent Order Modal */}
+      {showRecentModal && recentOrder && (
+        <OrderReminderModal
+          order={recentOrder}
+          onClose={() => setShowRecentModal(false)}
+          onReorder={() => {
+            const item = menuItems.find(m => m.name === recentOrder.itemName);
+            if (item) {
+              setSelectedItems(prev => ({
+                ...prev,
+                [item._id]: { quantity: recentOrder.quantity, specialInstructions: "" }
+              }));
+            }
+            setShowRecentModal(false);
+          }}
+        />
+      )}
+
+      {/* AI Recommendations Button */}
       {recommendations.length > 0 && (
         <button onClick={() => setShowModal(true)} className="recommendation-btn">
           View AI Recommendations
         </button>
       )}
 
-      {/* ✅ AI Recommendations Modal */}
+      {/* AI Recommendations Modal */}
       {showModal && (
         <div className="recommendation-modal">
           <div className="recommendation-modal-content">
@@ -106,7 +145,6 @@ const OrderPage = () => {
                 <li key={index}>
                   <strong>{dish.name}</strong>: {dish.description}
                   <br />
-                  {/* ✅ Reorder Button */}
                   <button
                     type="button"
                     className="reorder-btn"
@@ -130,7 +168,7 @@ const OrderPage = () => {
         </div>
       )}
 
-      {/* ✅ Order Form */}
+      {/* Order Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input type="hidden" {...register("customerId")} value={customerId} />
 

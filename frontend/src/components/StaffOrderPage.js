@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client"; // Import Socket.IO client
-import '../styles/StaffOrderPage.css'; // Import the CSS file
+
+
+
 
 const StaffOrderPage = () => {
   const [orders, setOrders] = useState([]);

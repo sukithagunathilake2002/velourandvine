@@ -18,6 +18,9 @@ import ReservationList from "./components/ReservationList";
 import TableIllustration from "./components/TableIllustration";
 import TableList from "./components/TableList";
 import AddTable from "./components/AddTable";
+import RecentOrder from "./components/OrderReminderModal"
+
+
 
 
 const Layout = () => {
@@ -48,6 +51,8 @@ const Layout = () => {
         <Route path="/admindashboard" element={<AdminPage />} />
         <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}
         <Route path="/aboutus" element={<AboutUs />} />
+        
+        <Route path="/R" element={<RecentOrder />} />
         
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}

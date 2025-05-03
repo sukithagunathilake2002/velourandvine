@@ -16,6 +16,8 @@ import AdminMenuPage from "./pages/AdminMenuPage";
 import ContactForm from './components/ContactForm';
 import AdminMessageList from './components/AdminMessageList';
 import CustomerMenuView from './pages/CustomerMenuView';
+import MainMenuPage from "./pages/MainMenuPage.js";
+import Menupage from "./pages/MenuPage.js";
 
 
 
@@ -47,6 +49,8 @@ const Layout = () => {
         <Route path="/admincuntact" element={<AdminMessageList/>}/>
 
         <Route path="/customermenu" element={<CustomerMenuView/>}/>
+        <Route path="/mainmenu" element={<MainMenuPage/>}/>
+        <Route path="/magemenu" element={<Menupage/>}/>
 
         
        

@@ -1,45 +1,49 @@
 const mongoose = require("mongoose");
-const Table = require("./Tables");
 
 const ReservationSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   customerName: {
     type: String,
-    required: [true, "Customer name is required"],
+    required: true,
     trim: true,
-    minlength: [3, "Customer name must be at least 3 characters long"]
+    minlength: 3
   },
   customerEmail: {
     type: String,
-    required: [true, "Customer email is required"],
+    required: true,
     trim: true,
     lowercase: true,
-    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"]
+    match: [/^\S+@\S+\.\S+$/, "Enter a valid email."]
   },
   customerPhone: {
     type: String,
-    required: [true, "Customer phone number is required"],
-    match: [/^\d{10,15}$/, "Phone number must be between 10 and 15 digits"]
+    required: true,
+    match: [/^\d{10,15}$/, "Phone must be 10-15 digits"]
   },
   tableId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Table",
-    required: [true, "Table selection is required"]
+    required: true
   },
   date: {
     type: String,
-    required: [true, "Reservation date is required"],
+    required: true,
     validate: {
       validator: function (value) {
-        const today = new Date().setHours(0, 0, 0, 0); // Today's date
+        const today = new Date().setHours(0, 0, 0, 0);
         const selectedDate = new Date(value).setHours(0, 0, 0, 0);
         return selectedDate >= today;
       },
-      message: "Reservation date must be today or a future date."
+      message: "Reservation date must be today or later."
     }
   },
   timeSlot: {
     type: String,
-    required: [true, "Reservation time slot is required"],
+    required: true,
     enum: ["12:00 PM", "3:00 PM", "6:00 PM", "9:00 PM"]
   },
   status: {

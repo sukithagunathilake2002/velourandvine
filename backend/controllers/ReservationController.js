@@ -1,104 +1,155 @@
 const Reservation = require("../models/reservationModel");
 const Table = require("../models/Tables");
+const { sendStatusUpdateEmail } = require("../utils/sendEmail");
 
-// ✅ Create a New Reservation
+
+// 🔐 Create a reservation for authenticated user
 exports.createReservation = async (req, res) => {
   try {
-    const { customerName, customerEmail, customerPhone, tableId, date, timeSlot } = req.body;
+    const { tableId, date, timeSlot } = req.body;
 
-
-    // Check if the table exists
     const table = await Table.findById(tableId);
-    if (!table) {
-      return res.status(404).json({ message: "Selected table does not exist." });
-    }
+    if (!table) return res.status(404).json({ message: "Table not found." });
 
-    // Check if the table is already reserved for the given date and time
-    const existingReservation = await Reservation.findOne({ tableId, date, timeSlot });
-    if (existingReservation) {
-      return res.status(400).json({ message: "Table is already reserved for the selected date and time slot." });
-    }
+    const existing = await Reservation.findOne({ tableId, date, timeSlot });
+    if (existing) return res.status(400).json({ message: "Table is already reserved at that time." });
 
-    // Create a new reservation
-    const newReservation = new Reservation({
-      customerName,
-      customerEmail,
-      customerPhone,
+    const reservation = new Reservation({
+      userId: req.user._id,
+      customerName: req.user.name,
+      customerEmail: req.user.email,
+      customerPhone: req.user.phone,
       tableId,
       date,
-      timeSlot,
-      status: "pending",
+      timeSlot
     });
 
-    await newReservation.save();
-    res.status(201).json({ message: "Reservation created successfully!", reservation: newReservation });
+    await reservation.save();
+    res.status(201).json({ message: "Reservation created!", reservation });
   } catch (error) {
-    res.status(500).json({ message: "Error creating reservation", error: error.message });
+    res.status(500).json({ message: "Reservation creation failed", error: error.message });
   }
 };
 
-// ✅ Get All Reservations
+// 🔐 Get all reservations (STAFF ONLY)
 exports.getAllReservations = async (req, res) => {
   try {
     const reservations = await Reservation.find()
-      .populate("tableId", "number capacity status") // Show table details
-      .sort({ date: 1, timeSlot: 1 }); // Sort by date and time slot
+      .populate("userId", "name email phone")
+      .populate("tableId", "number capacity status")
+      .sort({ date: 1 });
 
     res.status(200).json(reservations);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching reservations", error: error.message });
+    res.status(500).json({ message: "Failed to fetch all reservations", error: error.message });
   }
 };
 
-// ✅ Get a Single Reservation by ID
+// 🔐 Get current user's reservations
+exports.getMyReservations = async (req, res) => {
+  try {
+    const reservations = await Reservation.find({ userId: req.user._id })
+      .populate("tableId", "number capacity status")
+      .sort({ date: 1 });
+
+    res.status(200).json(reservations);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch your reservations", error: error.message });
+  }
+};
+
+// 🔐 Get one reservation (STAFF ONLY or Owner - optional logic can be added)
 exports.getReservationById = async (req, res) => {
   try {
-    const reservation = await Reservation.findById(req.params.id).populate("tableId", "number capacity status");
+    const reservation = await Reservation.findById(req.params.id)
+      .populate("tableId", "number capacity status")
+      .populate("userId", "name email");
 
-    if (!reservation) {
-      return res.status(404).json({ message: "Reservation not found" });
-    }
-
+    if (!reservation) return res.status(404).json({ message: "Not found" });
     res.status(200).json(reservation);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching reservation", error: error.message });
+    res.status(500).json({ message: "Fetch failed", error: error.message });
   }
 };
 
-// ✅ Update a Reservation
+// 🔐 Update (only user’s own)
 exports.updateReservation = async (req, res) => {
   try {
-    const { customerName, customerPhone, date, timeSlot, status } = req.body;
-
     const reservation = await Reservation.findById(req.params.id);
-    if (!reservation) {
-      return res.status(404).json({ message: "Reservation not found" });
-    }
+    if (!reservation) return res.status(404).json({ message: "Reservation not found" });
 
-    // Update fields if provided
+    if (reservation.userId.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: "Unauthorized" });
+
+    const { customerName, customerPhone, date, timeSlot } = req.body;
+
     if (customerName) reservation.customerName = customerName;
     if (customerPhone) reservation.customerPhone = customerPhone;
     if (date) reservation.date = date;
     if (timeSlot) reservation.timeSlot = timeSlot;
-    if (status) reservation.status = status;
 
     await reservation.save();
-    res.status(200).json({ message: "Reservation updated successfully!", reservation });
+    res.status(200).json({ message: "Reservation updated", reservation });
   } catch (error) {
-    res.status(500).json({ message: "Error updating reservation", error: error.message });
+    res.status(500).json({ message: "Update failed", error: error.message });
   }
 };
 
-// ✅ Delete a Reservation
+// 🔐 Delete (only user’s own)
 exports.deleteReservation = async (req, res) => {
   try {
-    const reservation = await Reservation.findByIdAndDelete(req.params.id);
+    const reservation = await Reservation.findById(req.params.id);
+    if (!reservation) return res.status(404).json({ message: "Not found" });
+
+    if (reservation.userId.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: "Unauthorized" });
+
+    await reservation.deleteOne();
+    res.status(200).json({ message: "Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Deletion failed", error: error.message });
+  }
+};
+
+// 🔐 Update status (STAFF only)
+exports.updateReservationStatus = async (req, res) => {
+  try {
+    const reservation = await Reservation.findById(req.params.id)
+      .populate("userId", "name email"); // Required for email
+
     if (!reservation) {
       return res.status(404).json({ message: "Reservation not found" });
     }
 
-    res.status(200).json({ message: "Reservation deleted successfully!" });
+    const newStatus = req.body.status || reservation.status;
+    reservation.status = newStatus;
+    await reservation.save();
+
+    // ✅ Send email
+    await sendStatusUpdateEmail(
+      reservation.customerEmail,
+      reservation.customerName,
+      newStatus,
+      reservation
+    );
+
+    res.status(200).json({ message: "Status updated and email sent", reservation });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting reservation", error: error.message });
+    res.status(500).json({ message: "Failed to update status", error: error.message });
   }
+};
+
+
+
+// ➤ Check Availability
+exports.checkAvailability = async (req, res) => {
+  const { tableId, date, timeSlot } = req.query;
+
+  if (!tableId || !date || !timeSlot) {
+    return res.status(400).json({ message: "Missing parameters." });
+  }
+
+  const existing = await Reservation.findOne({ tableId, date, timeSlot });
+
+  return res.json({ isReserved: !!existing });
 };

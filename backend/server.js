@@ -11,6 +11,7 @@ const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
 
 
+
 // const chatbotRoute = require('./routes/chatbot');
 
 // ✅ Load environment variables
@@ -32,12 +33,15 @@ const corsOptions = {
 app.use(cors());
 app.use(express.json());
 
+
+
 // ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
+
 
 
 app.use("/menu", menuRoutes);
@@ -52,3 +56,6 @@ app.use('/orders', orderRoutes);
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+//
+require("./utils/reservationCleaner");

@@ -1,0 +1,64 @@
+.basket-bg {
+    background: url("../assets/basket3.jpg") 
+no-repeat center center / cover;
+min-height: 100vh;
+padding-top: 80px; 
+}
+
+.basket-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.basket-page h1 {
+  color: #dcd135; /* Darker gray for visibility */
+}
+
+.basket-list {
+  margin-top: 20px;
+}
+
+.basket-item {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Visible border */
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #333; /* Dark text for contrast */
+}
+
+.basket-item p {
+  margin: 0;
+}
+
+.basket-item .add-to-cart-btn {
+  background-color: #28a745; /* Bright green for add to cart */
+  color: #fff; /* White text for contrast */
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.basket-item .add-to-cart-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.basket-item .remove-btn {
+  background-color: #dc3545; /* Bright red for remove */
+  color: #fff; /* White text for contrast */
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.basket-item .remove-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
+}

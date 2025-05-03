@@ -2,10 +2,11 @@ import { useState } from "react";
 import { FaUtensils, FaClipboardList, FaRobot, FaBars, FaTimes } from "react-icons/fa";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import "../styles/AdminNavBar.css";
+import { useNavigate } from "react-router-dom";
 
 function AdminNavBar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <div className="container">
       {/* Sidebar */}
@@ -24,7 +25,9 @@ function AdminNavBar() {
             <li className="nav-item">
               <MdOutlineRestaurantMenu className="icon" /> <span className={isOpen ? "show" : "hide"}>Menu</span>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" onClick={() => navigate("/staff/orders")} // ✅ Navigate on click
+              style={{ cursor: "pointer" }}>
+              
               <FaClipboardList className="icon" /> <span className={isOpen ? "show" : "hide"}>Order Details</span>
             </li>
             <li className="nav-item">

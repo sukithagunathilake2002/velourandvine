@@ -1,105 +1,303 @@
-/* OrderPage.css - Clean, visible, compact form layout */
+.order-bg {
+  background: url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80") 
+    no-repeat center center / cover;
+  min-height: 100vh;
+  
+
+}
+.payment-bg{
+  background: url("../assets/payment6.jpg") 
+  no-repeat center center / cover;
+min-height: 100vh;
+
+}
+.order-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  color: #111; /* darker text for contrast */
+  max-width: 500px;
+  margin: 3rem auto;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #000;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  color: #222;
+  font-weight: 600;
+}
+
+form label {
+  font-weight: 600;
+  display: block;
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  color: #000; /* label color darker */
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1.2rem;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+  background-color: #fefefe;
+  color: #111;
+}
+
+input:focus,
+select:focus {
+  border-color: gold;
+  background-color: #fff;
+  outline: none;
+}
+
+.menu-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.2rem 0;
+}
+
+.menu-item label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.menu-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.menu-item input[type="number"],
+.menu-item input[type="text"] {
+  margin-top: 0.25rem;
+}
+
+/* Add to Cart Button */
+button[type="button"] {
+  background-color: #4CAF50; /* Green for "Add" */
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+button[type="button"]:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Cart Section */
+.cart-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.cart-item {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item p {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.cart-item label {
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  color: #000;
+}
+
+.cart-item input[type="number"],
+.cart-item input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+  background-color: #fefefe;
+  color: #111;
+}
+
+.cart-item input:focus {
+  border-color: gold;
+  background-color: #fff;
+  outline: none;
+}
+
+/* Remove Button */
+.cart-item button[type="button"] {
+  background-color: #ff4444; /* Red for "Remove" */
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.cart-item button[type="button"]:hover {
+  background-color: #cc0000; /* Darker red on hover */
+}
+
+/* Place Order Button */
+button[type="submit"] {
+  background-color: gold;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 14px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #e6c200;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: crimson;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+/* Add this near the button[type="button"] styles */
+.favorite-btn {
+  background-color: #2196F3; /* Blue for "Add to Favorites" */
+  color: #fff;
+  margin-left: 10px; /* Space it from "Add to Cart" */
+}
+
+.favorite-btn:hover {
+  background-color: #1976D2; /* Darker blue on hover */
+}
+
+.basket-btn {
+  background-color: #f0ad4e; /* Orange-ish for distinction */
+  color: white;
+  padding: 5px 10px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.basket-btn:hover {
+  background-color: #ec971f;
+}
 
 .order-page {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff;
-    color: #111; /* darker text for contrast */
-    max-width: 500px;
-    margin: 3rem auto;
-    padding: 2rem 2.5rem;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    text-align: center;
-    color: #000;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  h2 {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    color: #222;
-    font-weight: 600;
-  }
-  
-  form label {
-    font-weight: 600;
-    display: block;
-    margin: 0.5rem 0 0.25rem;
-    font-size: 1rem;
-    color: #000; /* label color darker */
-  }
-  
-  input[type="text"],
-  input[type="number"],
-  select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 1.2rem;
-    border-radius: 5px;
-    border: 2px solid #ccc;
-    font-size: 1rem;
-    background-color: #fefefe;
-    color: #111;
-  }
-  
-  input:focus,
-  select:focus {
-    border-color: gold;
-    background-color: #fff;
-    outline: none;
-  }
-  
-  .menu-item {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1.2rem 0;
-  }
-  
-  .menu-item label {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: 1rem;
-    color: #111;
-    margin-bottom: 0.5rem;
-  }
-  
-  .menu-item input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .menu-item input[type="number"],
-  .menu-item input[type="text"] {
-    margin-top: 0.25rem;
-  }
-  
-  button[type="submit"] {
-    background-color: gold;
-    color: #000;
-    font-weight: bold;
-    border: none;
-    padding: 14px;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #e6c200;
-  }
-  
-  .error-message {
-    color: crimson;
-    font-size: 0.85rem;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
-  }
-  
+  padding: 20px;
+}
+
+.order-status-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.order-status-section button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.order-status-section button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  margin-left: 10px;
+  font-style: italic;
+  color: #007bff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.order-status {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.order-status.pending,
+.order-status.preparing {
+  color: #ffc107; /* Yellow for in-progress */
+}
+
+.order-status.completed {
+  color: #28a745; /* Green for done */
+}
+
+.order-status.cancelled {
+  color: #dc3545; /* Red for cancelled */
+}
+
+.order-status.error {
+  color: #dc3545; /* Red for errors */
+}
+
+/* Existing styles for menu, cart, etc. remain unchanged */
+.favorite-btn,
+.basket-btn {
+  background-color: #28a745;
+  margin-left: 10px;
+}
+
+.favorite-btn:hover,
+.basket-btn:hover {
+  background-color: #218838;
+}
+.cart-total {
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 2px solid #333;
+}
+
+.cart-total h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #2c3e50;
+}

@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
       localStorage.setItem("token", data.token);
       alert("Registration successful! Please login.");
-      navigate("/login");
+      navigate("/LoginPage");
     } catch (err) {
       console.error("Registration error:", err.response?.data || err);
       setError(err.response?.data?.message || "Something went wrong. Try again.");

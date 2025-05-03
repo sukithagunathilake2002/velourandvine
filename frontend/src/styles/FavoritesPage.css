@@ -1,0 +1,93 @@
+.favourite-bg {
+    background: url("../assets/fav2.jpg") 
+no-repeat center center / cover;
+min-height: 100vh;
+padding-top: 80px; 
+}
+.favorites-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    color: #111;
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 2rem 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #000;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.favorites-list {
+    margin-top: 1rem;
+}
+
+.favorite-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.favorite-item p {
+    font-weight: 500;
+    font-size: 1rem;
+    color: #111;
+    margin-bottom: 0.5rem;
+}
+
+.favorite-item label {
+    font-weight: 600;
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1rem;
+    color: #000;
+}
+
+.favorite-item input[type="number"],
+.favorite-item input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    background-color: #fefefe;
+    color: #111;
+}
+
+.favorite-item input:focus {
+    border-color: gold;
+    background-color: #fff;
+    outline: none;
+}
+
+.favorite-item button {
+    background-color: #4CAF50; /* Green for "Add to Cart" */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.favorite-item button:hover {
+    background-color: #45a049;
+}
+
+.favorite-item .remove-btn {
+    background-color: #ff4444; /* Red for "Remove" */
+}
+
+.favorite-item .remove-btn:hover {
+    background-color: #cc0000;
+}

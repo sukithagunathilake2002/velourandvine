@@ -9,7 +9,7 @@ const promotionRoutes = require("./routes/promotionRoutes");
 const orderRoutes = require("./routes/OrderRoutes");
 const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
-
+const cartRouter = require("./routes/cart");
 
 // const chatbotRoute = require('./routes/chatbot');
 
@@ -38,7 +38,7 @@ app.use("/api/user", userRoutes);
 app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
-
+app.use("/cart", cartRouter);
 
 app.use("/menu", menuRoutes);
 app.use("/promotion", promotionRoutes);

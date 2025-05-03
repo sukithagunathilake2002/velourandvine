@@ -36,3 +36,10 @@ dump/
 # Miscellaneous
 *.tgz
 .qodo
+
+#Python virtual environment
+venv/
+
+#Python cache
+__pycache__/
+*.__pycache__

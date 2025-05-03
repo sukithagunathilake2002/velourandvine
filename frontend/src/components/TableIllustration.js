@@ -36,7 +36,7 @@ const TableIllustration = () => {
 
   return (
     <div className="table-illustration">
-      <h2>Table Reservation</h2>
+      <h2>Table Availability</h2>
       <div className="table-grid">
         {tables.map((table) => (
           <div

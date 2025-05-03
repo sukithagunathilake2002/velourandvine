@@ -4,24 +4,28 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import "../styles/AddTable.css";
 
-const API_URL = "http://localhost:5000/api/tables"; // Update if needed
+const API_URL = "http://localhost:5000/api/tables";
 
 const AddTable = () => {
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm();
-    const navigate = useNavigate();
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange" // ✅ Enable real-time validation
+  });
 
   // ✅ Submit Form Data
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(API_URL, data);
       setMessage({ type: "success", text: response.data.message });
-      reset(); // Clear form after successful submission
+      reset(); // Clear form
+      setTimeout(() => navigate('/tables'), 1500); // Redirect after 1.5s
     } catch (error) {
       setMessage({
         type: "error",
@@ -37,7 +41,6 @@ const AddTable = () => {
       {/* Display Success or Error Messages */}
       {message && <p className={`message ${message.type}`}>{message.text}</p>}
 
-      {/* Table Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="table-form">
         {/* Table Number */}
         <label>Table Number</label>
@@ -63,7 +66,7 @@ const AddTable = () => {
         {errors.capacity && <p className="error">{errors.capacity.message}</p>}
 
         {/* Submit Button */}
-        <button type="submit" onClick={() => navigate('/tables')}>Add Table</button>
+        <button type="submit" disabled={!isValid}>Add Table</button>
       </form>
     </div>
   );

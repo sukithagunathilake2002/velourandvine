@@ -1,0 +1,66 @@
+
+
+.reservation-container {
+    background-color: white; /* Cream */
+    text-align: center;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000000; /* Black */
+  }
+  
+  .reservation-banner {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .reservation-title {
+    font-size: 2.5rem;
+    color: #D4AF37; /* Gold */
+    margin-bottom: 10px;
+  }
+  
+  .reservation-description {
+    font-size: 1.1rem;
+    color: #333333;
+    margin-bottom: 40px;
+  }
+  
+  .reservation-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .reservation-card {
+    background-color: #F5F5DC; /* Beige */
+    border: 2px solid #D4AF37; /* Gold border */
+    border-radius: 12px;
+    width: 250px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(255, 165, 0, 0.3); /* Orange shadow */
+  }
+  
+  .reservation-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .reservation-card-title {
+    margin: 15px 0;
+    color: #FFA500; /* Orange */
+    font-size: 1.2rem;
+  }
+  

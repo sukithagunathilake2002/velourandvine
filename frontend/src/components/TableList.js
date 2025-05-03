@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/TableList.css";
 
 const TableList = () => {
-  const [tables, setTables] = useState([]); // Stores table data
-  const [editingTable, setEditingTable] = useState(null); // Tracks the currently edited table
-  const [formData, setFormData] = useState({ number: "", capacity: "", status: "" }); // Stores form data
+  const [tables, setTables] = useState([]);
+  const [editingTable, setEditingTable] = useState(null);
+  const [formData, setFormData] = useState({
+    number: "",
+    capacity: "",
+    status: "",
+  });
+  const navigate = useNavigate();
 
-  // ✅ Fetch all tables
   useEffect(() => {
     fetchTables();
   }, []);
@@ -21,7 +26,6 @@ const TableList = () => {
     }
   };
 
-  // ✅ Handle Edit Click
   const handleEdit = (table) => {
     setEditingTable(table._id);
     setFormData({
@@ -31,16 +35,13 @@ const TableList = () => {
     });
   };
 
-  // ✅ Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Validate & Update Table
   const handleUpdate = async (id) => {
     const { number, capacity, status } = formData;
 
-    // 🔍 Frontend Validation
     if (!number || number < 1) {
       alert("Table number must be at least 1.");
       return;
@@ -64,7 +65,6 @@ const TableList = () => {
     }
   };
 
-  // ✅ Delete Table
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this table?")) return;
 
@@ -79,7 +79,13 @@ const TableList = () => {
 
   return (
     <div className="table-container">
-      <h2>Table Management</h2>
+      <div className="table-header">
+        <h2>Table Management</h2>
+        <button className="add-table-btn" onClick={() => navigate("/add-table")}>
+          Add New Table
+        </button>
+      </div>
+
       <table className="custom-table">
         <thead>
           <tr>
@@ -94,23 +100,36 @@ const TableList = () => {
             <tr key={table._id}>
               <td>
                 {editingTable === table._id ? (
-                  <input type="number" name="number" value={formData.number} onChange={handleChange} />
+                  <input
+                    type="number"
+                    name="number"
+                    value={formData.number}
+                    onChange={handleChange}
+                  />
                 ) : (
                   table.number
                 )}
               </td>
               <td>
                 {editingTable === table._id ? (
-                  <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} />
+                  <input
+                    type="number"
+                    name="capacity"
+                    value={formData.capacity}
+                    onChange={handleChange}
+                  />
                 ) : (
                   table.capacity
                 )}
               </td>
               <td>
                 {editingTable === table._id ? (
-                  <select name="status" value={formData.status} onChange={handleChange}>
+                  <select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                  >
                     <option value="available">Available</option>
-                    <option value="reserved">Reserved</option>
                     <option value="occupied">Occupied</option>
                   </select>
                 ) : (
@@ -119,15 +138,24 @@ const TableList = () => {
               </td>
               <td>
                 {editingTable === table._id ? (
-                  <button className="save-btn" onClick={() => handleUpdate(table._id)}>
+                  <button
+                    className="save-btn"
+                    onClick={() => handleUpdate(table._id)}
+                  >
                     Save
                   </button>
                 ) : (
-                  <button className="edit-btn" onClick={() => handleEdit(table)}>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(table)}
+                  >
                     Edit
                   </button>
                 )}
-                <button className="delete-btn" onClick={() => handleDelete(table._id)}>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(table._id)}
+                >
                   Delete
                 </button>
               </td>

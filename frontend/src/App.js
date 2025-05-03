@@ -18,6 +18,9 @@ import ReservationList from "./components/ReservationList";
 import TableIllustration from "./components/TableIllustration";
 import TableList from "./components/TableList";
 import AddTable from "./components/AddTable";
+import UserReservations from "./components/UserReservations";
+import TableReservationLanding from "./components/TableReservationLanding";
+import ResStaffLanding from "./components/ResStaffLanding";
 
 
 const Layout = () => {
@@ -31,10 +34,10 @@ const Layout = () => {
         <Route path="/" element={<Home />} />
         <Route path="/admindashboard" element={<AdminPage/>} />
         <Route path="/AboutUs" element={<AboutUs/>} />
-        <Route path="/LoginPage" element={<LoginPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
         <Route path="/UserProfile" element={<UserProfile/>}/>
-        <Route path="/ForgotPasswordPage" element={<ForgotPasswordPage/>}/>
+        <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
         <Route path="/order" element={<OrderPage/>} />
         <Route path="/staff/orders" element={<StaffOrderPage />} />
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
@@ -44,10 +47,12 @@ const Layout = () => {
         <Route path="/tableplan" element={<TableIllustration/>} />
         <Route path="/tables" element={<TableList/>} />
         <Route path="/add-table" element={<AddTable/>} />
-
         <Route path="/admindashboard" element={<AdminPage />} />
         <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/my-reservation" element={<UserReservations/>} />
+        <Route path="/reservationlanding" element={<TableReservationLanding/>} />
+        <Route path="/reservestaff" element={<ResStaffLanding/>} />
         
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}

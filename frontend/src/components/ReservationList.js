@@ -1,85 +1,165 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/ReservationList.css"; // Unique styling for this page
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import "../styles/ReservationList.css";
 
-const API_URL = "http://localhost:5000/api/reservations"; // Adjust based on your backend URL
+const API_URL = "http://localhost:5000/api/reservations";
 
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
-  const [message, setMessage] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState({});
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
 
-  // ✅ Fetch all reservations on component mount
+  const fetchReservations = async () => {
+    try {
+      const res = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const today = new Date().toISOString().split("T")[0];
+
+      // Filter out past reservations from backend response
+      const upcoming = res.data.filter((r) => r.date >= today);
+
+      setReservations(upcoming);
+      setFilteredReservations(upcoming);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+    }
+  };
+
   useEffect(() => {
     fetchReservations();
   }, []);
 
-  // ✅ Fetch Reservations
-  const fetchReservations = async () => {
+  const handleStatusChange = async (id, status) => {
     try {
-      const response = await axios.get(API_URL);
-      setReservations(response.data);
+      await axios.patch(
+        `${API_URL}/status/${id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchReservations();
     } catch (error) {
-      setMessage("Error fetching reservations. Please try again.");
-      console.error("Fetch error:", error);
+      console.error("Error updating status:", error);
     }
   };
 
-  // ✅ Handle status change in dropdown
-  const handleStatusChange = (reservationId, newStatus) => {
-    setSelectedStatus({ ...selectedStatus, [reservationId]: newStatus });
+  const handleDateFilter = (e) => {
+    const date = e.target.value;
+    setSelectedDate(date);
+    if (!date) {
+      setFilteredReservations(reservations);
+    } else {
+      const filtered = reservations.filter((r) => r.date === date);
+      setFilteredReservations(filtered);
+    }
   };
 
-  // ✅ Update reservation status in the backend
-  const updateStatus = async (reservationId) => {
-    try {
-      await axios.put(`${API_URL}/${reservationId}`, {
-        status: selectedStatus[reservationId],
-      });
-      setMessage("Reservation status updated successfully!");
-      fetchReservations(); // Refresh the reservation list
-    } catch (error) {
-      setMessage("Failed to update status. Please try again.");
-      console.error("Update error:", error);
-    }
+  const generatePDF = (data, title) => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(title, 14, 15);
+
+    const tableData = data.map((res) => [
+      res.customerName,
+      res.customerEmail,
+      res.customerPhone,
+      res.tableId?.number || "N/A",
+      res.date,
+      res.timeSlot,
+      res.status,
+    ]);
+
+    autoTable(doc, {
+      head: [["Name", "Email", "Phone", "Table", "Date", "Time", "Status"]],
+      body: tableData,
+      startY: 25,
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+        halign: "left",
+        valign: "middle",
+      },
+      headStyles: {
+        fillColor: [212, 175, 55], // Gold
+        textColor: 0,
+        fontStyle: "bold",
+      },
+      alternateRowStyles: {
+        fillColor: [255, 253, 208], // Cream
+      },
+    });
+
+    doc.save(`${title.replace(/\s+/g, "_").toLowerCase()}.pdf`);
   };
 
   return (
     <div className="reservation-list-container">
-      <h2>Reservation List</h2>
-      {message && <p className="message">{message}</p>}
+      <h2>All Reservations</h2>
 
-      {reservations.length === 0 ? (
-        <p>No reservations available.</p>
-      ) : (
-        <table className="reservation-table">
-          <thead>
+      <div className="filter-bar">
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={handleDateFilter}
+        />
+        <button
+          onClick={() =>
+            generatePDF(filteredReservations, "Filtered Reservation Report")
+          }
+        >
+          Download PDF (Filtered)
+        </button>
+        <button
+          onClick={() =>
+            generatePDF(reservations, "Full Reservation Report")
+          }
+        >
+          Download PDF (All)
+        </button>
+      </div>
+
+      <table className="reservation-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Table</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Change Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredReservations.length === 0 ? (
             <tr>
-              <th>Customer Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Table Number</th>
-              <th>Date</th>
-              <th>Time Slot</th>
-              <th>Status</th>
-              <th>Update Status</th>
+              <td colSpan="8">No reservations found.</td>
             </tr>
-          </thead>
-          <tbody>
-            {reservations.map((reservation) => (
-              <tr key={reservation._id}>
-                <td>{reservation.customerName}</td>
-                <td>{reservation.customerEmail}</td>
-                <td>{reservation.customerPhone}</td>
-                <td>Table {reservation.tableId.number} (Seats: {reservation.tableId.capacity})</td>
-                <td>{reservation.date}</td>
-                <td>{reservation.timeSlot}</td>
-                <td>{reservation.status}</td>
+          ) : (
+            filteredReservations.map((res) => (
+              <tr key={res._id}>
+                <td>{res.customerName}</td>
+                <td>{res.customerEmail}</td>
+                <td>{res.customerPhone}</td>
+                <td>{res.tableId?.number || "N/A"}</td>
+                <td>{res.date}</td>
+                <td>{res.timeSlot}</td>
+                <td>{res.status}</td>
                 <td>
                   <select
-                    value={selectedStatus[reservation._id] || reservation.status}
+                    value={res.status}
                     onChange={(e) =>
-                      handleStatusChange(reservation._id, e.target.value)
+                      handleStatusChange(res._id, e.target.value)
                     }
                   >
                     <option value="pending">Pending</option>
@@ -87,18 +167,12 @@ const ReservationList = () => {
                     <option value="cancelled">Cancelled</option>
                     <option value="completed">Completed</option>
                   </select>
-                  <button
-                    onClick={() => updateStatus(reservation._id)}
-                    className="update-button"
-                  >
-                    Update
-                  </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

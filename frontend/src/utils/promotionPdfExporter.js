@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable"; // Important to register the plugin
 
 export const generatePromotionReportPdf = (data) => {
   const doc = new jsPDF();
@@ -11,35 +11,19 @@ export const generatePromotionReportPdf = (data) => {
   doc.setFontSize(12);
   doc.text(`Date: ${date}`, 14, 30);
 
-  // Current Promotions Table
+  // ✅ Only Current Promotions
   doc.setFontSize(14);
   doc.text("Current Promotions", 14, 40);
-  doc.autoTable({
+  autoTable(doc, {
     startY: 45,
-    head: [["Name", "Category", "Discount", "Start", "End"]],
+    head: [["Name", "Category", "Discount", "Start Date", "End Date"]],
     body: data.currentPromotions.map(item => [
       item.name,
       item.category,
       item.promotion.discountRate + "%",
       item.promotion.startDate?.substring(0, 10),
       item.promotion.endDate?.substring(0, 10),
-    ])
-  });
-
-  // Upcoming Promotions Table
-  const nextY = doc.lastAutoTable.finalY + 10;
-  doc.setFontSize(14);
-  doc.text("Upcoming Promotions", 14, nextY);
-  doc.autoTable({
-    startY: nextY + 5,
-    head: [["Name", "Category", "Discount", "Start", "End"]],
-    body: data.upcomingPromotions.map(item => [
-      item.name,
-      item.category,
-      item.promotion.discountRate + "%",
-      item.promotion.startDate?.substring(0, 10),
-      item.promotion.endDate?.substring(0, 10),
-    ])
+    ]),
   });
 
   doc.save(`promotion-report-${date}.pdf`);

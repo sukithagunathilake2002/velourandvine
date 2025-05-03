@@ -1,7 +1,7 @@
 # Node.js dependencies
 backend/node_modules/
 README.md
-frontend/node_modules/
+node_modules/
 
 
 # Logs

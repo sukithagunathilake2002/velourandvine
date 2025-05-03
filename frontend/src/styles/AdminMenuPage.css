@@ -1,0 +1,61 @@
+.admin-container {
+    padding: 30px;
+  }
+  
+  .admin-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .admin-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .admin-button.export {
+    background-color: #6c757d;
+    color: white;
+    margin-left: 10px;
+  }
+  
+  .admin-button.add {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .admin-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .admin-checkbox {
+    margin: 15px 0;
+  }
+  
+  .admin-input {
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline-color: #fdd835;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

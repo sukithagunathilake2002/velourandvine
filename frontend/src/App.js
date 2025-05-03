@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import AdminPage from "./components/AdminPage";
-import MenuPage from "./pages/MenuPage"; // Import MenuPage here
 import AboutUs from "./components/About";
 import LoginPage from"./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -13,6 +12,15 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage"
 import OrderPage from './components/OrderPage';
 import StaffOrderPage from './components/CStaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
+import AdminMenuPage from "./pages/AdminMenuPage";
+import ContactForm from './components/ContactForm';
+import AdminMessageList from './components/AdminMessageList';
+import CustomerMenuView from './pages/CustomerMenuView';
+import MainMenuPage from "./pages/MainMenuPage.js";
+import Menupage from "./pages/MenuPage.js";
+
+
+
 import FavoritesPage from "./components/FavoritesPage";
 import BasketPage from "./components/BasketPage";
 import { AuthProvider } from "./context/AuthContext";
@@ -32,6 +40,7 @@ const Layout = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admindashboard" element={<AdminPage/>} />
+        
         <Route path="/AboutUs" element={<AboutUs/>} />
         <Route path="/LoginPage" element={<LoginPage/>}/>
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
@@ -49,8 +58,18 @@ const Layout = () => {
         <Route path="/payment" element={<PaymentPage />} /> {/* New Payment route */}
     
         <Route path="/admindashboard" element={<AdminPage />} />
-        <Route path="/Menu" element={<MenuPage />} /> {/* Updated to use Menu */}
+       
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/AdminMenus" element={<AdminMenuPage />} />
+        <Route path="/cuntactus" element={<ContactForm/>}/>
+        <Route path="/admincuntact" element={<AdminMessageList/>}/>
+
+        <Route path="/customermenu" element={<CustomerMenuView/>}/>
+        <Route path="/mainmenu" element={<MainMenuPage/>}/>
+        <Route path="/magemenu" element={<Menupage/>}/>
+
+        
+       
         
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}

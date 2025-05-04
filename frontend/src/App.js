@@ -9,9 +9,9 @@ import LoginPage from"./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfile from "./pages/UserProfile";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"
-import OrderPage from './components/OrderPage';
-import StaffOrderPage from './components/StaffOrderPage';
-import EditOrderPage from './components/EditOrderPage';
+import OrderPage from "./components/OrderPage";
+import StaffOrderPage from "./components/StaffOrderPage";
+import EditOrderPage from "./components/EditOrderPage";
 import AdminMenuPage from "./pages/AdminMenuPage";
 import ContactForm from "./components/ContactForm";
 import AdminMessageList from "./components/AdminMessageList";

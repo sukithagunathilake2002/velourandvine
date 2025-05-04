@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "../styles/RegisterPage.css"; // ✅ Import the scoped CSS
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/RegisterPage.css";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,12 @@ const RegisterPage = () => {
     setError("");
     setLoading(true);
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data } = await axios.post("http://localhost:5000/api/auth/register", formData, {
         headers: { "Content-Type": "application/json" },
@@ -32,7 +38,7 @@ const RegisterPage = () => {
 
       localStorage.setItem("token", data.token);
       alert("Registration successful! Please login.");
-      navigate("/login");
+      navigate("/LoginPage");
     } catch (err) {
       console.error("Registration error:", err.response?.data || err);
       setError(err.response?.data?.message || "Something went wrong. Try again.");
@@ -42,9 +48,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-page"> {/* ✅ Scoped styles */}
+    <div className="register-page">
       <div className="register-container">
-        <h2>Get Registered in Veluore and Vine...!</h2>
+        <h2>Get Registered in Veloure and Vine...!</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
@@ -54,7 +60,9 @@ const RegisterPage = () => {
           <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
           <button type="submit" disabled={loading}>{loading ? "Registering..." : "Register"}</button>
         </form>
-        <p>Already have an account? <a href="/LoginPage">Login</a></p>
+        <p>
+          Already have an account? <Link to="/LoginPage">Login</Link>
+        </p>
       </div>
     </div>
   );

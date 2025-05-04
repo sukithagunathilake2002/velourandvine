@@ -11,21 +11,22 @@ const promotionRoutes = require("./routes/promotionRoutes");
 const orderRoutes = require("./routes/OrderRoutes");
 const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
-const contactRoutes = require('./routes/contactRoutes');
+const cartRouter = require("./routes/cart");
+const contactRoutes = require("./routes/contactRoutes");
 
 
 
 const orderRecommendationsRoutes = require("./routes/orderRecommendations"); // ✅ Newly added
 
-//  Load environment variables
+// ✅ Load environment variables
 dotenv.config();
 
-//  Connect to MongoDB
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
 
-//  CORS Configuration
+// ✅ CORS Configuration
 const corsOptions = {
   origin: "http://localhost:3000", // Allow frontend access
   methods: "GET,POST,PUT,DELETE",
@@ -43,6 +44,7 @@ app.use("/api/user", userRoutes);
 app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
+app.use("/cart", cartRouter);
 
 
 
@@ -52,6 +54,7 @@ app.use("/orders", orderRoutes);
 app.use("/orders/recommendations", orderRecommendationsRoutes); // ✅ Added this line
 app.use("/api/menus", menuRoutes); // ✅ Correct
 app.use("/api/promotions", promotionRoutes);
+
 app.use('/orders', orderRoutes);
 
 //cuntact us 

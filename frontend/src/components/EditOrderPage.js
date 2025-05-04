@@ -1,72 +1,109 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../styles/EditOrderPage.css'; // Make sure this is imported
+import "../styles/EditOrderPage.css";
 
 const EditOrderPage = () => {
-  const { orderId } = useParams(); // Get the order ID from URL params
+  const { orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [status, setStatus] = useState("");
   const [price, setPrice] = useState("");
-  const [allOrders, setAllOrders] = useState([]); // To store all orders for sequential indexing
+  const [allOrders, setAllOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Fetch all orders to get the order with the specific orderId
   useEffect(() => {
-    axios.get("http://localhost:5000/orders/all")
-      .then(res => {
-        setAllOrders(res.data); // Store all orders for index calculation
-        const foundOrder = res.data.find(o => o._id === orderId);
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/orders/all");
+        setAllOrders(res.data);
+        const foundOrder = res.data.find((o) => o._id === orderId);
         if (foundOrder) {
           setOrder(foundOrder);
           setStatus(foundOrder.status);
-          setPrice(foundOrder.totalPrice); // Set the initial price from the order
+          setPrice(foundOrder.totalPrice.toString());
+        } else {
+          setError("Order not found");
         }
-      })
-      .catch(err => {
+      } catch (err) {
         console.error("Error fetching orders:", err);
-      });
+        setError("Failed to load orders");
+      }
+    };
+
+    fetchOrders();
   }, [orderId]);
 
-  // Get the order index (1-based index)
   const getOrderIndex = () => {
     if (!allOrders || !order) return 0;
-    return allOrders.findIndex((orderItem) => orderItem._id === orderId) + 1;
+    return allOrders.findIndex((o) => o._id === orderId) + 1;
   };
 
-  // Format the price to show only two decimal places
   const formatPrice = (price) => {
-    return price.toFixed(2); // Limits the price to two decimal places
+    return parseFloat(price).toFixed(2);
   };
 
-  // Handle updating the order status and price
   const handleUpdate = async () => {
+    if (!order) return;
+    setLoading(true);
+    setError(null);
     try {
-      // Update both the status and price of the order
-      await axios.put(`http://localhost:5000/orders/update-status/${orderId}`, {
+      const updatedPrice = parseFloat(price) || order.totalPrice;
+
+      const updatedItems = order.items.map((item) => ({
+        menuItemId: item.menuItemId,
+        name: item.name,
+        quantity: item.quantity,
+        specialInstructions: item.specialInstructions || "",
+        price: item.price,
+        subtotal: item.subtotal || item.price * item.quantity,
+      }));
+
+      await axios.put(`http://localhost:5000/orders/update/${orderId}`, {
         status,
-        totalPrice: price, // Include the updated price
+        totalPrice: updatedPrice,
+        items: updatedItems,
       });
+
       alert("✅ Order updated successfully");
-      navigate("/staff/orders"); // Navigate to the staff orders page after updating
+      navigate("/staff/orders");
     } catch (err) {
       console.error("❌ Failed to update order", err);
-      alert("Update failed");
+      setError(err.response?.data?.message || "Failed to update order");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // If the order is still loading, display a loading message
-  if (!order) return <p>Loading order...</p>;
+  const handleSpecialInstructionsChange = (index, value) => {
+    if (!order) return;
+    const updatedItems = [...order.items];
+    updatedItems[index].specialInstructions = value || "";
+    setOrder((prev) => ({
+      ...prev,
+      items: updatedItems,
+    }));
+  };
+
+  if (!order && !error) return <p>Loading order...</p>;
+  if (error && !order) return <p style={{ color: "red" }}>Error: {error}</p>;
 
   return (
-    <div className="edit-order-page"> {/* Unique wrapper class */}
+    <div className="edit-order-page">
       <h1>Edit Order</h1>
+      <p>
+        <strong>Order Number:</strong> {getOrderIndex()}
+      </p>
 
-      {/* Display the sequential order index */}
-      <p><strong>Order ID :</strong>  {getOrderIndex()}</p> {/* Display Order index as "Order 1", "Order 2", etc. */}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
       <label>Status:</label>
-      <select value={status} onChange={(e) => setStatus(e.target.value)}>
+      <select
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+        disabled={loading}
+      >
         <option value="Pending">Pending</option>
         <option value="Verifying">Verifying</option>
         <option value="Preparing">Preparing</option>
@@ -75,7 +112,8 @@ const EditOrderPage = () => {
         <option value="Cancelled">Cancelled</option>
       </select>
 
-      <br /><br />
+      <br />
+      <br />
 
       <label>Price:</label>
       <input
@@ -84,10 +122,39 @@ const EditOrderPage = () => {
         step="0.01"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
+        disabled={loading}
       />
 
-      <br /><br />
-      <button onClick={handleUpdate}>Update Order</button>
+      <br />
+      <br />
+
+      <h2>Order Items</h2>
+      {order.items.map((item, index) => (
+        <div key={item.menuItemId} className="order-item">
+          <p>
+            <strong>
+              {item.name} - ${formatPrice(item.price)}
+            </strong>
+          </p>
+          <label>Special Instructions:</label>
+          <input
+            type="text"
+            value={item.specialInstructions || ""}
+            onChange={(e) =>
+              handleSpecialInstructionsChange(index, e.target.value)
+            }
+            placeholder="Enter special instructions"
+            disabled={loading}
+          />
+        </div>
+      ))}
+
+      <br />
+      <br />
+
+      <button onClick={handleUpdate} disabled={loading}>
+        {loading ? "Updating..." : "Update Order"}
+      </button>
     </div>
   );
 };

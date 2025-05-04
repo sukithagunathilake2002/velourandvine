@@ -1,6 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/ContactForm.css';
+import { useNavigate, Link } from "react-router-dom";
+import { FaBars, FaTimes, FaClipboardList } from "react-icons/fa";
+import "../styles/AdminNavBar.css";
+
+function AdminNavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  return (
+    <div className={`sidebar ${isOpen ? "expanded" : "collapsed"}`}>
+      <div className="header">
+        <h1 className={isOpen ? "show" : "hide"}>Admin</h1>
+        <button onClick={() => setIsOpen(!isOpen)} className="toggle-btn">
+          {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+        </button>
+      </div>
+      <nav>
+        <ul>
+          <li className="nav-item">
+            <Link to="/AdminMenus" className="Nav-Link">
+              <span className={isOpen ? "show" : "hide"}>Menus</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <span className={isOpen ? "show" : "hide"}>Reservations</span>
+          </li>
+          <li
+            className="nav-item"
+            onClick={() => navigate("/staff/orders")}
+            style={{ cursor: "pointer" }}
+          >
+            <FaClipboardList className="icon" />
+            <span className={isOpen ? "show" : "hide"}>Order Details</span>
+          </li>
+          <li className="nav-item">
+            <span className={isOpen ? "show" : "hide"}>Menu List</span>
+          </li>
+          <li className="nav-item">
+            <Link to="/admincuntact" className="Nav-Link">
+              <span className={isOpen ? "show" : "hide"}>Contact Us</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+}
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -11,24 +57,27 @@ function ContactForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const [isStaff, setIsStaff] = useState(false);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.role === "staff") {
+      setIsStaff(true);
+    }
+  }, []);
 
   const validate = () => {
     const newErrors = {};
-
     if (!formData.name.trim()) newErrors.name = "Name is required";
-
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Email format is invalid";
     }
-
     if (!formData.message.trim()) newErrors.message = "Message is required";
-
     if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
-
     return newErrors;
   };
 
@@ -43,7 +92,6 @@ function ContactForm() {
       setErrors(validationErrors);
       return;
     }
-
     try {
       await axios.post('http://localhost:5000/api/contact', formData);
       alert('Message sent!');
@@ -54,7 +102,7 @@ function ContactForm() {
     }
   };
 
-  return (
+  const contactFormContent = (
     <div className="contact-section">
       <form onSubmit={handleSubmit} className="contact-form" noValidate>
         <h3>Send Us a Message</h3>
@@ -117,6 +165,15 @@ function ContactForm() {
         ></iframe>
       </div>
     </div>
+  );
+
+  return isStaff ? (
+    <div className="container">
+      <AdminNavBar />
+      <div className="main-content">{contactFormContent}</div>
+    </div>
+  ) : (
+    contactFormContent
   );
 }
 

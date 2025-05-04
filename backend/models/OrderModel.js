@@ -40,4 +40,4 @@ orderSchema.methods.calculateTotalPrice = function () {
 };
 
 const Order = mongoose.model("Order", orderSchema);
-module.exports = Order;
+module.exports = Order;  

@@ -157,3 +157,8 @@ exports.getAllMenuItems = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch menu items", details: error.message });
   }
 };
+
+// Placeholder: Get recommendations (to be implemented later)
+exports.getRecommendations = async (req, res) => {
+    res.status(501).json({ message: "Recommendations feature not implemented yet" });
+};

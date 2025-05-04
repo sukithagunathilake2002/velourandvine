@@ -24,6 +24,9 @@ import ReservationList from "./components/ReservationList";
 import TableIllustration from "./components/TableIllustration";
 import TableList from "./components/TableList";
 import AddTable from "./components/AddTable";
+import RecentOrder from "./components/OrderReminderModal"
+
+
 import UserReservations from "./components/UserReservations";
 import TableReservationLanding from "./components/TableReservationLanding";
 import ResStaffLanding from "./components/ResStaffLanding";
@@ -86,6 +89,8 @@ const Layout = () => {
         <Route path="/my-reservation" element={<UserReservations/>} />
         <Route path="/reservationlanding" element={<TableReservationLanding/>} />
         <Route path="/reservestaff" element={<ResStaffLanding/>} />
+        
+        <Route path="/R" element={<RecentOrder />} />
         
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}

@@ -12,4 +12,7 @@ router.get("/status/:orderId", orderController.getOrderStatus); // Get order sta
 // ✅ NEW: Menu route (needed by React frontend)
 router.get("/menu/all", orderController.getAllMenuItems);     // Get all menu items
 
+// Route to fetch recommendations from Flask
+router.get("/recommendations/:customerId", orderController.getRecommendations);
+
 module.exports = router;

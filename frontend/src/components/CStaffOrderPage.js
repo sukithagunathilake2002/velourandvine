@@ -5,6 +5,10 @@ import io from "socket.io-client";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable"; // ✅ Correct import
 import '../styles/CStaffOrderPage.css';
+import io from "socket.io-client"; // Import Socket.IO client
+
+
+
 
 const StaffOrderPage = () => {
   const [orders, setOrders] = useState([]);

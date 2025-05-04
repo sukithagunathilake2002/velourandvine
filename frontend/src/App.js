@@ -13,9 +13,9 @@ import OrderPage from './components/OrderPage';
 import StaffOrderPage from './components/StaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
 import AdminMenuPage from "./pages/AdminMenuPage";
-import ContactForm from './components/ContactForm';
-import AdminMessageList from './components/AdminMessageList';
-import CustomerMenuView from './pages/CustomerMenuView';
+import ContactForm from "./components/ContactForm";
+import AdminMessageList from "./components/AdminMessageList";
+import CustomerMenuView from "./pages/CustomerMenuView";
 
 
 

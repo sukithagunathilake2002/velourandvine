@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../styles/CustomerMenuView.css";
 
 const API_BASE = "http://localhost:5000/api/menus/all";
@@ -8,6 +9,7 @@ function CustomerMenuView() {
   const [menus, setMenus] = useState([]);
   const [filteredCategory, setFilteredCategory] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const categories = [
     "Appetizers",
@@ -47,7 +49,14 @@ function CustomerMenuView() {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    // ✅ Save selected item name
+    localStorage.setItem("selectedItemName", item.name);
+
     alert(`${item.name} added to cart`);
+
+    // ✅ Navigate to OrderPage
+    navigate("/order");
   };
 
   const isPromoActive = (promo) => {

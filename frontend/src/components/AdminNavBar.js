@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import "../styles/AdminNavBar.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaClipboardList } from "react-icons/fa";
 
 function AdminNavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ function AdminNavBar() {
               <span className={isOpen ? "show" : "hide"}>Reservations</span>
             </li>
             <li className="nav-item" onClick={() => navigate("/staff/orders")} // ✅ Navigate on click
-              style={{ cursor: "pointer" }}>
+              style={{ cursor: "pointer" }}/>
               
               <FaClipboardList className="icon" /> <span className={isOpen ? "show" : "hide"}>Order Details</span>
             <li className="nav-item">

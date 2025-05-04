@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "../styles/LoginPage.css"; // Import the scoped CSS file
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/LoginPage.css";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -23,15 +23,13 @@ const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      // ✅ Store token and user info
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ Redirect based on role
       if (data.user.role === "staff") {
         navigate("/admindashboard");
       } else {
-        navigate("/"); // regular user page
+        navigate("/");
       }
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
@@ -42,7 +40,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page"> {/* ✅ Scoped class */}
+    <div className="login-page">
       <div className="login-container">
         <h2>Welcome to Veloure and Vine!</h2>
         <h3>Login</h3>
@@ -67,10 +65,10 @@ const LoginPage = () => {
           </button>
         </form>
         <p>
-          Don't have an account? <a href="/RegisterPage">Register</a>
+          Don't have an account? <Link to="/RegisterPage">Register</Link>
         </p>
         <p>
-          <a href="/forgot-password">Forgot Password?</a>
+          <Link to="/forgot-password">Forgot Password?</Link>
         </p>
       </div>
     </div>

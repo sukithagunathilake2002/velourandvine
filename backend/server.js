@@ -9,31 +9,30 @@ const promotionRoutes = require("./routes/promotionRoutes");
 const orderRoutes = require("./routes/OrderRoutes");
 const reservationRoutes = require("./routes/ReservationRoutes");
 const tableRoutes = require("./routes/TableRoutes");
-const contactRoutes = require('./routes/contactRoutes');
-
-
+const cartRouter = require("./routes/cart");
+const contactRoutes = require("./routes/contactRoutes");
 // const chatbotRoute = require('./routes/chatbot');
 
-//  Load environment variables
+// ✅ Load environment variables
 dotenv.config();
 
-//  Connect to MongoDB
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
 
-//  CORS Configuration
+// ✅ CORS Configuration
 const corsOptions = {
     origin: "http://localhost:3000", // Allow frontend access
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   };
 
-//  Middleware
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
 
-//  Routes
+// ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.get("/", (req, res) => res.send("API is running..."));
@@ -41,20 +40,20 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/cart", cartRouter);
 
-app.use("/api/menus", menuRoutes); // ✅ Correct
+app.use("/api/menus", menuRoutes);
 app.use("/api/promotions", promotionRoutes);
+
 app.use('/orders', orderRoutes);
 
 //cuntact us 
 app.use('/api/contact', contactRoutes);
 
-
-
 // Make uploads folder publicly accessible
 app.use("/uploads", express.static("uploads"));
 
+// ✅ Start Server
 
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

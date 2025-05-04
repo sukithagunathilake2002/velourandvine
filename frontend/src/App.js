@@ -16,12 +16,13 @@ import AdminMenuPage from "./pages/AdminMenuPage";
 import ContactForm from './components/ContactForm';
 import AdminMessageList from './components/AdminMessageList';
 import CustomerMenuView from './pages/CustomerMenuView';
-import MainMenuPage from "./pages/MainMenuPage.js";
-import Menupage from "./pages/MenuPage.js";
+//import Menupage from "./pages/MenuPage.js"
+//import MainMenuPage from "./pages"
+import FavoritesPage from './components/FavoritesPage';
 
 
 
-import FavoritesPage from "./components/FavoritesPage";
+
 import BasketPage from "./components/BasketPage";
 import { AuthProvider } from "./context/AuthContext";
 import OrderStatusPage from "./components/OrderStatusPage";
@@ -53,7 +54,7 @@ const Layout = () => {
         <Route path="/basket" element={<BasketPage />} />
         <Route path="/order-status/:orderId" element={<OrderStatusPage />} />
         <Route path="/reservation" element={<ReservationForm />} />
-        <Route Path="/reservations" element={<ReservationList/>} />
+        <Route path="/reservations" element={<ReservationList />} />
         <Route path="/cart" element={<CartPage />} /> {/* New Cart route */}
         <Route path="/payment" element={<PaymentPage />} /> {/* New Payment route */}
     
@@ -65,8 +66,8 @@ const Layout = () => {
         <Route path="/admincuntact" element={<AdminMessageList/>}/>
 
         <Route path="/customermenu" element={<CustomerMenuView/>}/>
-        <Route path="/mainmenu" element={<MainMenuPage/>}/>
-        <Route path="/magemenu" element={<Menupage/>}/>
+       {/* <Route path="/mainmenu" element={<MainMenuPage/>}/> */}
+       {/* <Route path="/magemenu" element={<Menupage/>}/> */}
 
         
        

@@ -7,27 +7,31 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (storedUser && token) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      console.log("User loaded from localStorage:", parsedUser); // ✅ Debug
-      console.log("Token loaded from localStorage:", token); // ✅ Debug
+    try {
+      const storedUser = localStorage.getItem("user");
+      const token = localStorage.getItem("token");
+      if (storedUser && token) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        console.log("User loaded from localStorage:", parsedUser);
+        console.log("Token loaded from localStorage:", token);
+      }
+    } catch (err) {
+      console.error("Failed to load user from localStorage", err);
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
     }
   }, []);
 
   const login = async (email, password) => {
     try {
       const { data } = await axios.post("http://localhost:5000/api/auth/login", { email, password });
-      console.log("Login response:", data); // ✅ Debug
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      console.log("User set in AuthContext:", data.user); // ✅ Confirm
       return { success: true, message: "Login successful" };
     } catch (error) {
-      console.error("Login failed:", error.response?.data?.message);
+      console.error("Login failed:", error.response?.data?.message || error.message);
       return { success: false, message: error.response?.data?.message || "Login failed" };
     }
   };
@@ -37,7 +41,6 @@ const AuthProvider = ({ children }) => {
       if (password !== confirmPassword) {
         throw new Error("Passwords do not match");
       }
-
       const { data } = await axios.post("http://localhost:5000/api/auth/register", {
         name,
         email,
@@ -45,12 +48,9 @@ const AuthProvider = ({ children }) => {
         password,
         confirmPassword,
       });
-
-      console.log("Register response:", data); // ✅ Debug
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      console.log("User set in AuthContext:", data.user); // ✅ Confirm
       return { success: true, message: "Registration successful" };
     } catch (error) {
       console.error("Registration failed:", error.response?.data?.message || error.message);
@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
-    console.log("User logged out, state cleared"); // ✅ Debug
+    console.log("User logged out, state cleared");
   };
 
   return (

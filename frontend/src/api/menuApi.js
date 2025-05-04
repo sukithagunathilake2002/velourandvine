@@ -14,6 +14,5 @@ export const deleteMenu = (id) =>
 export const updatePromotion = (id, data) =>
   axios.put(`${PROMO_URL}/${id}`, data);
 
-// ✅ Remove promotion (corrected)
 export const removePromotion = (id) =>
-  axios.put(`${MENU_BASE}/remove-promotion/${id}`);
+  axios.delete(`http://localhost:5000/api/promotions/${id}`);

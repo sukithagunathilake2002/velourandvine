@@ -7,7 +7,7 @@
   .sidebar {
     width: 250px;
     padding: 20px;
-    background-color: #e0f2f1;
+    background-color: #0f0e0e;
     border-right: 1px solid #ccc;
   }
   
@@ -28,17 +28,17 @@
     cursor: pointer;
     border-radius: 6px;
     margin-bottom: 5px;
-    background: #ffffff;
+    background: #181616;
     transition: 0.3s;
   }
   
   .category-list li:hover {
-    background-color: #d1f2eb;
+    background-color: #181919;
   }
   
   .category-list li.active {
-    background-color: #2a9d8f;
-    color: white;
+    background-color: gold;
+    color: rgb(247, 242, 242);
     font-weight: bold;
   }
   
@@ -122,14 +122,14 @@
   }
   
   .menu-discounted-price {
-    color: #2a9d8f;
+    color: #0c1211;
     font-weight: bold;
   }
 
   .add-to-cart-btn {
     margin-top: 10px;
     padding: 8px 12px;
-    background-color: #2a9d8f;
+    background-color: #171a19;
     color: white;
     border: none;
     border-radius: 5px;
@@ -139,7 +139,7 @@
   }
   
   .add-to-cart-btn:hover {
-    background-color: #21867a;
+    background-color: #C39A5B;
   }
 
   .menu-image-container {
@@ -150,7 +150,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: #e74c3c;
+    background-color: #c21704;
     color: white;
     font-size: 12px;
     font-weight: bold;

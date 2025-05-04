@@ -30,6 +30,7 @@ const AdminMenuPage = () => {
     image: null,
   });
 
+  const [menuSuccess, setMenuSuccess] = useState(""); // ✅ success message for menu
   const [promoData, setPromoData] = useState(null);
   const [promoForm, setPromoForm] = useState({
     discountRate: "",
@@ -40,7 +41,7 @@ const AdminMenuPage = () => {
   const [promoSuccess, setPromoSuccess] = useState("");
   const [promoError, setPromoError] = useState("");
   const [viewOnlyPromo, setViewOnlyPromo] = useState(false);
-  const [isEditingPromo, setIsEditingPromo] = useState(false); // 👈 new state
+  const [isEditingPromo, setIsEditingPromo] = useState(false);
 
   const loadMenus = useCallback(async () => {
     const res = await fetchMenus({ category });
@@ -102,12 +103,15 @@ const AdminMenuPage = () => {
         await axios.put(url, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        setMenuSuccess("✅ Menu updated successfully!");
       } else {
         await axios.post(url, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        setMenuSuccess("✅ Menu added successfully!");
       }
 
+      setTimeout(() => setMenuSuccess(""), 3000);
       setIsFormOpen(false);
       setEditData(null);
       loadMenus();
@@ -118,6 +122,10 @@ const AdminMenuPage = () => {
 
   const handlePromoSubmit = async (e) => {
     e.preventDefault();
+  
+    const confirm = window.confirm("Are you sure you want to add this promotion?");
+    if (!confirm) return;
+  
     try {
       await updatePromotion(promoData._id, promoForm);
       setPromoSuccess("✅ Promotion updated successfully!");
@@ -132,8 +140,12 @@ const AdminMenuPage = () => {
       setPromoSuccess("");
     }
   };
+  
 
   const handleDeletePromotion = async () => {
+    const confirm = window.confirm("Are you sure you want to remove this promotion?");
+    if (!confirm) return;
+  
     try {
       await removePromotion(promoData._id);
       setPromoSuccess("✅ Promotion removed successfully!");
@@ -148,6 +160,7 @@ const AdminMenuPage = () => {
       setPromoSuccess("");
     }
   };
+  
 
   const inputStyle = {
     padding: "12px",
@@ -168,9 +181,6 @@ const AdminMenuPage = () => {
     fontSize: "14px",
   };
 
-
-
-
   const filteredMenus = onlyPromoted
     ? menus.filter((menu) => menu.promotion?.discountRate > 0)
     : menus;
@@ -184,6 +194,24 @@ const AdminMenuPage = () => {
         }
       `}</style>
 
+      {/* ✅ Success Message */}
+      {menuSuccess && (
+        <div
+          style={{
+            backgroundColor: "#e0f7fa",
+            color: "#00796b",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            marginBottom: "20px",
+            textAlign: "center",
+            fontWeight: "bold",
+            animation: "fadeIn 0.3s ease-in-out",
+          }}
+        >
+          {menuSuccess}
+        </div>
+      )}
+
       <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>
         Admin Menu Management
       </h1>
@@ -194,8 +222,7 @@ const AdminMenuPage = () => {
       >
         📄 Export PDF
       </button>
-      
-      
+
       <button
         onClick={async () => {
           const res = await axios.get("http://localhost:5000/api/menus/promotions/report");
@@ -205,8 +232,6 @@ const AdminMenuPage = () => {
       >
         🖨️ Export Promotions PDF
       </button>
-
-      
 
       <div style={{ margin: "15px 0" }}>
         <label>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const PromotionModal = ({
   promoData,
@@ -15,9 +15,36 @@ const PromotionModal = ({
   isEditingPromo,
   setIsEditingPromo,
 }) => {
+  const [formError, setFormError] = useState("");
+
   const actualPrice = (
     promoData.price - (promoData.price * promoForm.discountRate) / 100
   ).toFixed(2);
+
+  const handleValidatedSubmit = (e) => {
+    e.preventDefault();
+    const { discountRate, startDate, endDate } = promoForm;
+
+    // Validation
+    if (!discountRate || !startDate || !endDate) {
+      setFormError("❌ All fields are required.");
+      return;
+    }
+
+    const discount = parseFloat(discountRate);
+    if (isNaN(discount) || discount <= 0 || discount > 100) {
+      setFormError("❌ Discount must be between 1 and 100.");
+      return;
+    }
+
+    if (new Date(startDate) >= new Date(endDate)) {
+      setFormError("❌ Start Date must be before End Date.");
+      return;
+    }
+
+    setFormError("");
+    onSubmit(e);
+  };
 
   return (
     <div style={modalOverlayStyle}>
@@ -28,12 +55,9 @@ const PromotionModal = ({
 
         <h2 style={modalTitle}>Promotion Details</h2>
 
-        {successMessage && (
-          <div style={successMessageStyle}>{successMessage}</div>
-        )}
-        {errorMessage && (
-          <div style={errorMessageStyle}>{errorMessage}</div>
-        )}
+        {successMessage && <div style={successMessageStyle}>{successMessage}</div>}
+        {errorMessage && <div style={errorMessageStyle}>{errorMessage}</div>}
+        {formError && <div style={errorMessageStyle}>{formError}</div>}
 
         {isViewOnly && !isEditingPromo ? (
           <>
@@ -45,57 +69,54 @@ const PromotionModal = ({
             <p><strong>End Date:</strong> {promoForm.endDate}</p>
 
             <div style={buttonGroupStyle}>
-              <button
-                onClick={() => setIsEditingPromo(true)}
-                className={buttonStyle}
-              >
+              <button onClick={() => setIsEditingPromo(true)} style={buttonStyle}>
                 ✏️ Edit
               </button>
-              <button
-                onClick={handleDeletePromotion}
-                className={buttonStyle}
-              >
+              <button onClick={handleDeletePromotion} style={buttonStyle}>
                 🗑️ Delete
               </button>
-              <button
-                onClick={onClose}
-                className={buttonStyle}
-              >
+              <button onClick={onClose} style={buttonStyle}>
                 Close
               </button>
             </div>
           </>
         ) : (
-          <form onSubmit={onSubmit}>
-            <input
-              type="number"
-              name="discountRate"
-              value={promoForm.discountRate}
-              onChange={(e) => setPromoForm({ ...promoForm, discountRate: e.target.value })}
-              placeholder="Discount %"
-              className={inputStyle}
-              required
-            />
-            <input
-              type="date"
-              name="startDate"
-              value={promoForm.startDate}
-              onChange={(e) => setPromoForm({ ...promoForm, startDate: e.target.value })}
-              className={inputStyle}
-              required
-            />
-            <input
-              type="date"
-              name="endDate"
-              value={promoForm.endDate}
-              onChange={(e) => setPromoForm({ ...promoForm, endDate: e.target.value })}
-              className={inputStyle}
-              required
-            />
+          <form onSubmit={handleValidatedSubmit}>
+        <input
+          type="number"
+          name="discountRate"
+          value={promoForm.discountRate}
+          onChange={(e) => setPromoForm({ ...promoForm, discountRate: e.target.value })}
+          placeholder="Discount %"
+          className={inputStyle}
+          required
+          min="1"
+        />
+
+        <input
+          type="date"
+          name="startDate"
+          value={promoForm.startDate}
+          onChange={(e) => setPromoForm({ ...promoForm, startDate: e.target.value })}
+          className={inputStyle}
+          min={new Date().toISOString().split("T")[0]}
+          required
+        />
+
+        <input
+          type="date"
+          name="endDate"
+          value={promoForm.endDate}
+          onChange={(e) => setPromoForm({ ...promoForm, endDate: e.target.value })}
+          className={inputStyle}
+          min={promoForm.startDate || new Date().toISOString().split("T")[0]} 
+        />
+
+
             <div style={buttonGroupStyle}>
-              <button type="submit" className={buttonStyle}>💾 Save</button>
-              <button type="button" onClick={handleDeletePromotion} className={buttonStyle}>🗑️ Delete</button>
-              <button type="button" onClick={onClose} className={buttonStyle}>Cancel</button>
+              <button type="submit" style={buttonStyle}>💾 Save</button>
+              <button type="button" onClick={handleDeletePromotion} style={buttonStyle}>🗑️ Delete</button>
+              <button type="button" onClick={onClose} style={buttonStyle}>Cancel</button>
             </div>
           </form>
         )}
@@ -106,8 +127,7 @@ const PromotionModal = ({
 
 export default PromotionModal;
 
-// --- Styles (Inline or move to external if needed) ---
-
+// --- Styles ---
 const modalOverlayStyle = {
   position: "fixed",
   top: 0,

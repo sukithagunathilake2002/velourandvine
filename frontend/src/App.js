@@ -34,8 +34,6 @@ import ResStaffLanding from "./components/ResStaffLanding";
 import BasketPage from "./components/BasketPage";
 import { AuthProvider } from "./context/AuthContext";
 import OrderStatusPage from "./components/OrderStatusPage";
-import ReservationForm from "./components/ReservationForm";
-import ReservationList from "./components/ReservationList";
 import CartPage from "./components/CartPage"; // New CartPage
 import PaymentPage from "./components/PaymentPage"; // New PaymentPage
 

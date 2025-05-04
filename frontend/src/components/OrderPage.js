@@ -28,11 +28,7 @@ function AdminNavBar() {
           <li className="nav-item">
             <span className={isOpen ? "show" : "hide"}>Reservations</span>
           </li>
-          <li
-            className="nav-item"
-            onClick={() => navigate("/staff/orders")}
-            style={{ cursor: "pointer" }}
-          >
+          <li className="nav-item" onClick={() => navigate("/staff/orders")} style={{ cursor: "pointer" }}>
             <FaClipboardList className="icon" />
             <span className={isOpen ? "show" : "hide"}>Order Details</span>
           </li>
@@ -80,18 +76,14 @@ const OrderPage = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/menus/all")
+    axios.get("http://localhost:5000/api/menus/all")
       .then((res) => {
         setMenuItems(res.data);
-
         setTimeout(() => {
           const selectedItemName = localStorage.getItem("selectedItemName");
           if (selectedItemName) {
             const element = document.getElementById(`menu-item-${selectedItemName}`);
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
+            if (element) element.scrollIntoView({ behavior: "smooth", block: "center" });
             localStorage.removeItem("selectedItemName");
           }
         }, 500);
@@ -100,8 +92,7 @@ const OrderPage = () => {
 
     const userId = decodedToken?.id;
     if (userId) {
-      axios
-        .get(`http://localhost:5000/order-recommendations/${userId}`)
+      axios.get(`http://localhost:5000/order-recommendations/${userId}`)
         .then((res) => {
           const recs = res.data.recommendations;
           setRecommendations(recs);
@@ -113,21 +104,16 @@ const OrderPage = () => {
       if (storedOrderId) {
         setOrderId(storedOrderId);
       } else {
-        axiosWithAuth
-          .get(`http://localhost:5000/orders/all?customerId=${userId}`)
+        axiosWithAuth.get(`http://localhost:5000/orders/all?customerId=${userId}`)
           .then((res) => {
             const orders = res.data;
             if (orders.length > 0) {
-              const latestOrder = orders.sort(
-                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-              )[0];
+              const latestOrder = orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
               setOrderId(latestOrder._id);
               localStorage.setItem(`lastOrderId_${userId}`, latestOrder._id);
             }
           })
-          .catch((err) =>
-            console.error("Error fetching latest order:", err.response?.data || err.message)
-          );
+          .catch((err) => console.error("Error fetching latest order:", err.response?.data || err.message));
       }
     }
 
@@ -140,17 +126,12 @@ const OrderPage = () => {
     const localCart = JSON.parse(localStorage.getItem(localCartKey) || "[]");
 
     if (userId) {
-      axiosWithAuth
-        .get(`http://localhost:5000/cart/${userId}`)
+      axiosWithAuth.get(`http://localhost:5000/cart/${userId}`)
         .then((res) => {
           const serverCart = res.data.items || [];
-          const mergedCart = [
-            ...serverCart.filter(
-              (sItem) =>
-                !localCart.some((lItem) => lItem.menuItemId === sItem.menuItemId)
-            ),
-            ...localCart,
-          ];
+          const mergedCart = [...serverCart.filter(
+            (sItem) => !localCart.some((lItem) => lItem.menuItemId === sItem.menuItemId)
+          ), ...localCart];
           setCart(mergedCart);
           saveCart(mergedCart);
         })
@@ -314,14 +295,14 @@ const OrderPage = () => {
                     {...register(`specialInstructions_${item._id}`)}
                   />
                 </div>
-                <div className="button-group">
+                <div className="button-group-row">
                   <button type="button" onClick={handleSubmit((data) => addToCart(item._id, data))}>
                     Add to Cart
                   </button>
-                  <button type="button" className="favorite-btn" onClick={() => addToFavorites(item)}>
+                  <button type="button" onClick={() => addToFavorites(item)}>
                     Add to Favorites
                   </button>
-                  <button type="button" className="basket-btn" onClick={() => addToBasket(item)}>
+                  <button type="button" onClick={() => addToBasket(item)}>
                     Add to Basket
                   </button>
                 </div>

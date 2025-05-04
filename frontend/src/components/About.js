@@ -1,17 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/AboutUs.css";
 import backgroundImage from "../assets/image3.png";
 import visionImage from "../assets/vision.jpg";
 import missionImage from "../assets/mission.jpg";
+import { useNavigate, Link } from "react-router-dom";
+import { FaBars, FaTimes, FaClipboardList } from "react-icons/fa";
+import "../styles/AdminNavBar.css";
+
+function AdminNavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  return (
+    <div className={`sidebar ${isOpen ? "expanded" : "collapsed"}`}>
+      <div className="header">
+        <h1 className={isOpen ? "show" : "hide"}>Admin</h1>
+        <button onClick={() => setIsOpen(!isOpen)} className="toggle-btn">
+          {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+        </button>
+      </div>
+      <nav>
+        <ul>
+          <li className="nav-item">
+            <Link to="/AdminMenus" className="Nav-Link">
+              <span className={isOpen ? "show" : "hide"}>Menus</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <span className={isOpen ? "show" : "hide"}>Reservations</span>
+          </li>
+          <li
+            className="nav-item"
+            onClick={() => navigate("/staff/orders")}
+            style={{ cursor: "pointer" }}
+          >
+            <FaClipboardList className="icon" />
+            <span className={isOpen ? "show" : "hide"}>Order Details</span>
+          </li>
+          <li className="nav-item">
+            <span className={isOpen ? "show" : "hide"}>Menu List</span>
+          </li>
+          <li className="nav-item">
+            <span className={isOpen ? "show" : "hide"}>Order Details</span>
+          </li>
+          <li className="nav-item">
+            <Link to="/admincuntact" className="Nav-Link">
+              <span className={isOpen ? "show" : "hide"}>Contact Us</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+}
 
 const AboutUs = () => {
-  return (
+  const [isStaff, setIsStaff] = useState(false);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.role === "staff") {
+      setIsStaff(true);
+    }
+  }, []);
+
+  const content = (
     <div className="about-us-container">
       {/* Background Image Header */}
-      <div className="about-us-header">
+      <div
+        className="about-us-header"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <h1 className="about-us-title">About Us</h1>
       </div>
-      
+
       {/* Content Section */}
       <div className="about-us-content">
         <h2 className="about-us-history-title">Our History</h2>
@@ -22,7 +83,7 @@ const AboutUs = () => {
           specimen book. It has survived not only five centuries, but also the leap into
           electronic typesetting, remaining essentially unchanged.
         </p>
-        
+
         {/* Video Section */}
         <div className="about-us-video-container">
           <iframe
@@ -35,7 +96,7 @@ const AboutUs = () => {
           ></iframe>
         </div>
       </div>
-      
+
       {/* Vision & Mission Section */}
       <div className="vision-mission-section">
         <div className="vision-container">
@@ -56,6 +117,15 @@ const AboutUs = () => {
         </div>
       </div>
     </div>
+  );
+
+  return isStaff ? (
+    <div className="container">
+      <AdminNavBar />
+      <div className="main-content">{content}</div>
+    </div>
+  ) : (
+    content
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../styles/CustomerMenuView.css";
+import "../styles/ModalMessage.css"; // <-- make sure this is included for the modal
 
 const API_BASE = "http://localhost:5000/api/menus/all";
 
@@ -8,6 +10,11 @@ function CustomerMenuView() {
   const [menus, setMenus] = useState([]);
   const [filteredCategory, setFilteredCategory] = useState("");
   const [loading, setLoading] = useState(true);
+  const [weather, setWeather] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [recommendedMenu, setRecommendedMenu] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const categories = [
     "Appetizers",
@@ -36,6 +43,35 @@ function CustomerMenuView() {
     fetchMenus();
   }, [filteredCategory]);
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+
+          try {
+            const response = await axios.get(
+              `http://127.0.0.1:5000/api/weather/get-weather?lat=${latitude}&lon=${longitude}`
+            );
+            setWeather(response.data);
+
+            const menuResponse = await axios.get(
+              `http://127.0.0.1:5000/api/menu?city=${response.data.city}`
+            );
+            setRecommendedMenu(menuResponse.data.menu);
+          } catch (error) {
+            console.error("Error fetching weather or recommended menu:", error);
+          }
+        },
+        (error) => console.error("Geolocation Error:", error),
+        { timeout: 10000 }
+      );
+    } else {
+      console.error("Geolocation not supported by this browser.");
+    }
+  }, []);
+
   const handleAddToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const exists = cart.find((i) => i._id === item._id);
@@ -47,13 +83,23 @@ function CustomerMenuView() {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("selectedItemName", item.name);
     alert(`${item.name} added to cart`);
+    navigate("/order");
   };
 
   const isPromoActive = (promo) => {
     if (!promo || !promo.startDate || !promo.endDate) return false;
     const now = new Date();
     return new Date(promo.startDate) <= now && new Date(promo.endDate) >= now;
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -81,6 +127,12 @@ function CustomerMenuView() {
 
       <main className="menu-content">
         <h2 className="menu-title">Our Menu</h2>
+
+        {weather && (
+          <button onClick={handleShowModal} className="show-weather-btn">
+            Show Weather and Recommended Dishes
+          </button>
+        )}
 
         {loading ? (
           <p className="menu-loading">Loading...</p>
@@ -144,6 +196,37 @@ function CustomerMenuView() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Weather in {weather.city}</h2>
+              <p>
+                Current Weather: {weather.temperature}°C, {weather.condition}
+              </p>
+              <p>
+                Your Location: Latitude: {location?.latitude}, Longitude: {location?.longitude}
+              </p>
+
+              <h3>Recommended Dishes Based on Weather:</h3>
+              <ul>
+                {recommendedMenu.length > 0 ? (
+                  recommendedMenu.map((dish, index) => (
+                    <li key={index}>
+                      <strong>{dish.name}</strong>: {dish.description}
+                    </li>
+                  ))
+                ) : (
+                  <p>Loading recommended dishes...</p>
+                )}
+              </ul>
+
+              <button onClick={handleCloseModal} className="close-modal-btn">
+                Close
+              </button>
+            </div>
           </div>
         )}
       </main>

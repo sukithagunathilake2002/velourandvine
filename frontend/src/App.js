@@ -10,7 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 import UserProfile from "./pages/UserProfile";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"
 import OrderPage from './components/OrderPage';
-import StaffOrderPage from './components/StaffOrderPage';
+import StaffOrderPage from './components/CStaffOrderPage';
 import EditOrderPage from './components/EditOrderPage';
 import AdminMenuPage from "./pages/AdminMenuPage";
 import ContactForm from "./components/ContactForm";
@@ -19,6 +19,7 @@ import CustomerMenuView from "./pages/CustomerMenuView";
 
 
 
+import FavoritesPage from './components/FavoritesPage';
 import ReservationForm from "./components/ReservationForm";
 import ReservationList from "./components/ReservationList";
 import TableIllustration from "./components/TableIllustration";
@@ -31,6 +32,14 @@ import UserReservations from "./components/UserReservations";
 import TableReservationLanding from "./components/TableReservationLanding";
 import ResStaffLanding from "./components/ResStaffLanding";
 
+
+
+
+import BasketPage from "./components/BasketPage";
+import { AuthProvider } from "./context/AuthContext";
+import OrderStatusPage from "./components/OrderStatusPage";
+import CartPage from "./components/CartPage"; // New CartPage
+import PaymentPage from "./components/PaymentPage"; // New PaymentPage
 
 const Layout = () => {
   const location = useLocation();
@@ -49,8 +58,16 @@ const Layout = () => {
         <Route path="/UserProfile" element={<UserProfile/>}/>
         <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
         <Route path="/order" element={<OrderPage/>} />
-        <Route path="/staff/orders" element={<StaffOrderPage />} />
+        <Route path="/staff/orders" element={<StaffOrderPage/>}/>
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/basket" element={<BasketPage />} />
+        <Route path="/order-status/:orderId" element={<OrderStatusPage />} />
+        <Route path="/reservation" element={<ReservationForm />} />
+        <Route path="/reservations" element={<ReservationList />} />
+        <Route path="/cart" element={<CartPage />} /> {/* New Cart route */}
+        <Route path="/payment" element={<PaymentPage />} /> {/* New Payment route */}
+    
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
         <Route path="/reserve" element={<ReservationForm/>} />
         <Route path="/reservations" element={<ReservationList/>} />
@@ -84,7 +101,9 @@ const Layout = () => {
 const App = () => {
   return (
     <Router>
+      <AuthProvider>
       <Layout />
+      </AuthProvider>
     </Router>
   );
 };

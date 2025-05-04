@@ -33,6 +33,9 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
+    // ✅ Detect role based on email pattern
+    const role = email.includes('staffvelour@') ? 'staff' : 'user';
+
     // ✅ Respond with user data and token
     res.status(201).json({
       message: "User registered successfully!",
@@ -41,6 +44,7 @@ const registerUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         phone: newUser.phone,
+        role,  // ➔ send detected role
       },
       token: generateToken(newUser._id),
     });
@@ -63,6 +67,9 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
+    // ✅ Detect role based on email pattern
+    const role = email.includes('staffvelour@') ? 'staff' : 'user';
+
     // ✅ Respond with user data and token
     res.status(200).json({
       message: "Login successful",
@@ -71,6 +78,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         phone: user.phone,
+        role,  // ➔ send detected role
       },
       token: generateToken(user._id),
     });
@@ -104,7 +112,7 @@ const forgotPassword = async (req, res) => {
 
     // ✅ Ensure password is updated correctly
     user.password = hashedPassword;
-    await user.save(); // Make sure this is awaited properly
+    await user.save();
 
     res.status(200).json({ message: "Password reset successfully! You can now log in with your new password." });
   } catch (error) {

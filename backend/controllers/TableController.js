@@ -29,23 +29,44 @@ exports.addTable = async (req, res) => {
   try {
     const { number, capacity } = req.body;
 
+    // Check for required fields
+    if (number == null || capacity == null) {
+      return res.status(400).json({ message: "Table number and capacity are required." });
+    }
+
+    // Check for valid capacity
+    if (capacity < 1 || capacity > 20) {
+      return res.status(400).json({ message: "Capacity must be between 1 and 20 seats." });
+    }
+
+    // Check for valid table number
+    if (number < 1) {
+      return res.status(400).json({ message: "Table number must be at least 1." });
+    }
+
     // Check if table number already exists
     const existingTable = await Table.findOne({ number });
     if (existingTable) {
       return res.status(400).json({ message: `Table number ${number} already exists.` });
     }
 
-    // Ensure capacity is within range
-    if (capacity < 1 || capacity > 20) {
-      return res.status(400).json({ message: "Capacity must be between 1 and 20 seats." });
-    }
-
     const newTable = new Table({ number, capacity });
     await newTable.save();
 
-    res.status(201).json({ message: `Table ${number} added successfully!`, table: newTable });
+    return res.status(201).json({
+      message: `Table ${number} added successfully!`,
+      table: newTable,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error adding table", error: error.message });
+    // Check for MongoDB duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Table number already exists (duplicate key error)." });
+    }
+
+    res.status(500).json({
+      message: "Error adding table",
+      error: error.message,
+    });
   }
 };
 

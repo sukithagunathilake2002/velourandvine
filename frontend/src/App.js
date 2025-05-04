@@ -19,6 +19,14 @@ import CustomerMenuView from './pages/CustomerMenuView';
 //import Menupage from "./pages/MenuPage.js"
 //import MainMenuPage from "./pages"
 import FavoritesPage from './components/FavoritesPage';
+import ReservationForm from "./components/ReservationForm";
+import ReservationList from "./components/ReservationList";
+import TableIllustration from "./components/TableIllustration";
+import TableList from "./components/TableList";
+import AddTable from "./components/AddTable";
+import UserReservations from "./components/UserReservations";
+import TableReservationLanding from "./components/TableReservationLanding";
+import ResStaffLanding from "./components/ResStaffLanding";
 
 
 
@@ -43,10 +51,10 @@ const Layout = () => {
         <Route path="/admindashboard" element={<AdminPage/>} />
         
         <Route path="/AboutUs" element={<AboutUs/>} />
-        <Route path="/LoginPage" element={<LoginPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
         <Route path="/RegisterPage" element={<RegisterPage/>}/>
         <Route path="/UserProfile" element={<UserProfile/>}/>
-        <Route path="/ForgotPasswordPage" element={<ForgotPasswordPage/>}/>
+        <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
         <Route path="/order" element={<OrderPage/>} />
         <Route path="/staff/orders" element={<StaffOrderPage/>}/>
         <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
@@ -58,6 +66,12 @@ const Layout = () => {
         <Route path="/cart" element={<CartPage />} /> {/* New Cart route */}
         <Route path="/payment" element={<PaymentPage />} /> {/* New Payment route */}
     
+        <Route path="/staff/orders/edit/:orderId" element={<EditOrderPage />} />
+        <Route path="/reserve" element={<ReservationForm/>} />
+        <Route path="/reservations" element={<ReservationList/>} />
+        <Route path="/tableplan" element={<TableIllustration/>} />
+        <Route path="/tables" element={<TableList/>} />
+        <Route path="/add-table" element={<AddTable/>} />
         <Route path="/admindashboard" element={<AdminPage />} />
        
         <Route path="/aboutus" element={<AboutUs />} />
@@ -71,6 +85,9 @@ const Layout = () => {
 
         
        
+        <Route path="/my-reservation" element={<UserReservations/>} />
+        <Route path="/reservationlanding" element={<TableReservationLanding/>} />
+        <Route path="/reservestaff" element={<ResStaffLanding/>} />
         
       </Routes>
       {!hideFooterOnPaths.includes(location.pathname) && <Footer />}

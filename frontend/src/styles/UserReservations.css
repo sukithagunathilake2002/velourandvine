@@ -1,0 +1,129 @@
+.user-reservations-container {
+    padding: 40px 20px;
+    background: url("../assets/bg-tables.jpg") no-repeat center center/cover;
+    color: #000;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .user-reservations-container h2 {
+    text-align: center;
+    color: #D4AF37; /* Gold */
+    margin-bottom: 30px;
+  }
+  
+  .reservation-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .reservation-card {
+    background-color: #F5F5DC; /* Beige */
+    border: 2px solid #D4AF37; /* Gold */
+    border-radius: 12px;
+    width: 320px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .reservation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(255, 165, 0, 0.2); /* Orange glow */
+  }
+  
+  .reservation-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .reservation-card-header h3 {
+    margin: 0;
+    color: #000;
+  }
+  
+  .status {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .status.confirmed {
+    background-color: #D4AF37;
+    color: #fff;
+  }
+  
+  .status.pending {
+    background-color: #FFA500;
+    color: #000;
+  }
+  
+  .status.cancelled {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .reservation-card-body {
+    margin-bottom: 15px;
+  }
+  
+  .card-field {
+    margin: 10px 0;
+    font-size: 0.95rem;
+  }
+  
+  .card-field strong {
+    color: #000;
+    margin-right: 6px;
+  }
+  
+  .card-field input,
+  .card-field select {
+    margin-top: 5px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    background-color: #fff;
+  }
+  
+  .reservation-card-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  
+  .reservation-card-actions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .edit-btn {
+    background-color: #D4AF37;
+    color: #fff;
+  }
+  
+  .delete-btn {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .save-btn {
+    background-color: #FFA500;
+    color: #000;
+  }
+  
+  .cancel-btn {
+    background-color: #F5F5DC;
+    color: #000;
+    border: 1px solid #000;
+  }
+  

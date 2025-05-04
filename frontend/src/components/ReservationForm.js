@@ -1,183 +1,217 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/ReservationForm.css";// Import unique styles
+import { useNavigate } from "react-router-dom";
+import "../styles/ReservationForm.css";
+
+const API_URL = "http://localhost:5000/api/reservations";
+const TABLES_URL = "http://localhost:5000/api/tables";
+const USER_URL = "http://localhost:5000/api/users";
+const CHECK_AVAILABILITY_URL = "http://localhost:5000/api/reservations/check-availability";
 
 const ReservationForm = () => {
-  const [tables, setTables] = useState([]); // Stores available tables
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
-    customerName: "",
-    customerEmail: "",
-    customerPhone: "",
-    tableId: "",
-    date: "",
-    timeSlot: "",
+    name: '',
+    email: '',
+    phone: '',
   });
 
-  const [errors, setErrors] = useState({}); // Stores validation errors
-  const timeSlots = ["12:00 PM", "3:00 PM", "6:00 PM", "9:00 PM"]; // Available time slots
+  const [date, setDate] = useState("");
+  const [timeSlot, setTimeSlot] = useState("");
+  const [tableId, setTableId] = useState("");
+  const [tables, setTables] = useState([]);
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // ✅ Fetch available tables
   useEffect(() => {
-    fetchTables();
+    axios.get(TABLES_URL)
+      .then(res => setTables(res.data))
+      .catch(err => console.error("Error fetching tables:", err));
   }, []);
 
-  const fetchTables = async () => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return navigate("/login");
+
+        const res = await axios.get(USER_URL, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setUser(res.data);
+        setFormData({
+          name: res.data.name || '',
+          email: res.data.email || '',
+          phone: res.data.phone || '',
+        });
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        navigate("/reserve");
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  const validateField = (name, value) => {
+    const today = new Date().toISOString().split("T")[0];
+    let error = "";
+
+    switch (name) {
+      case "date":
+        if (!value) error = "Date is required.";
+        else if (value < today) error = "Date must be today or later.";
+        break;
+      case "timeSlot":
+        if (!value) error = "Please select a time slot.";
+        break;
+      case "tableId":
+        if (!value) error = "Please select a table.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(prev => ({ ...prev, [name]: error }));
+    return error === "";
+  };
+
+  const checkTableAvailability = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/tables");
-      setTables(res.data);
+      const res = await axios.get(CHECK_AVAILABILITY_URL, {
+        params: { tableId, date, timeSlot }
+      });
+      return res.data.isReserved;
     } catch (error) {
-      console.error("Error fetching tables:", error);
+      console.error("Error checking availability:", error);
+      return false;
     }
   };
 
-  // ✅ Handle Input Change
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // Clear error when user types
+    const { name, value } = e.target;
+    if (name === "date") setDate(value);
+    if (name === "timeSlot") setTimeSlot(value);
+    if (name === "tableId") setTableId(value);
+    validateField(name, value);
   };
 
-  // ✅ Validate Inputs Before Submission
-  const validateForm = () => {
-    let newErrors = {};
-
-    if (!formData.customerName || formData.customerName.length < 3) {
-      newErrors.customerName = "Name must be at least 3 characters long.";
-    }
-
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!formData.customerEmail || !emailRegex.test(formData.customerEmail)) {
-      newErrors.customerEmail = "Please enter a valid email address.";
-    }
-
-    const phoneRegex = /^\d{10,15}$/;
-    if (!formData.customerPhone || !phoneRegex.test(formData.customerPhone)) {
-      newErrors.customerPhone = "Phone number must be between 10 and 15 digits.";
-    }
-
-    if (!formData.tableId) {
-      newErrors.tableId = "Please select a table.";
-    }
-
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!formData.date || !dateRegex.test(formData.date)) {
-      newErrors.date = "Invalid date format. Use YYYY-MM-DD.";
-    }
-
-    if (!formData.timeSlot) {
-      newErrors.timeSlot = "Please select a time slot.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  const validateAll = () => {
+    const isDateValid = validateField("date", date);
+    const isTimeValid = validateField("timeSlot", timeSlot);
+    const isTableValid = validateField("tableId", tableId);
+    return isDateValid && isTimeValid && isTableValid;
   };
 
-  // ✅ Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Stop if validation fails
+    setMessage("");
+    setErrors({});
+
+    if (!validateAll()) return;
+
+    const isReserved = await checkTableAvailability();
+    if (isReserved) {
+      setErrors(prev => ({
+        ...prev,
+        tableId: `Table is already reserved for ${timeSlot} on ${date}. Please choose a different time or table.`,
+      }));
+      return;
+    }
 
     try {
-      await axios.post("http://localhost:5000/api/reservations", formData);
-      alert("Reservation created successfully!");
-      setFormData({
-        customerName: "",
-        customerEmail: "",
-        customerPhone: "",
-        tableId: "",
-        date: "",
-        timeSlot: "",
-      });
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        API_URL,
+        { tableId, date, timeSlot },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setMessage(res.data.message);
+      navigate("/my-reservation");
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to create reservation.");
+      setMessage(
+        error.response?.data?.message || "Failed to create reservation. Please try again."
+      );
     }
   };
 
-  // ✅ Handle Cancel (Reset Form)
   const handleCancel = () => {
-    setFormData({
-      customerName: "",
-      customerEmail: "",
-      customerPhone: "",
-      tableId: "",
-      date: "",
-      timeSlot: "",
-    });
+    setDate("");
+    setTimeSlot("");
+    setTableId("");
     setErrors({});
+    setMessage("");
+    navigate("/reserve");
   };
 
   return (
-    <div className="reservation-form"> 
-    <div className="reservation-container">
-      <h2>Reserve a Table</h2>
+  <div className="reservation-page-bg">
+    <div className="reservation-form-container">
+      <h2>Make a Reservation</h2>
+
+      {/* ✅ Personalized welcome message */}
+      {user && <p className="welcome-message">Welcome, {user.name}!</p>}
+
+      {message && <p className="message">{message}</p>}
+
       <form onSubmit={handleSubmit} className="reservation-form">
-        {/* Customer Name */}
-        <label>Name:</label>
-        <input
-          type="text"
-          name="customerName"
-          value={formData.customerName}
-          onChange={handleChange}
-          className={errors.customerName ? "error-input" : ""}
-        />
-        {errors.customerName && <span className="error-text">{errors.customerName}</span>}
 
-        {/* Email */}
-        <label>Email:</label>
-        <input
-          type="email"
-          name="customerEmail"
-          value={formData.customerEmail}
-          onChange={handleChange}
-          className={errors.customerEmail ? "error-input" : ""}
-        />
-        {errors.customerEmail && <span className="error-text">{errors.customerEmail}</span>}
 
-        {/* Phone */}
-        <label>Phone:</label>
+        <label>Date:</label>
         <input
-          type="text"
-          name="customerPhone"
-          value={formData.customerPhone}
+          type="date"
+          name="date"
+          value={date}
           onChange={handleChange}
-          className={errors.customerPhone ? "error-input" : ""}
+          className={errors.date ? "error-input" : ""}
         />
-        {errors.customerPhone && <span className="error-text">{errors.customerPhone}</span>}
+        {errors.date && <p className="error">{errors.date}</p>}
 
-        {/* Table Selection */}
-        <label>Select Table:</label>
-        <select name="tableId" value={formData.tableId} onChange={handleChange}>
-          <option value="">-- Select a Table --</option>
+        <label>Time Slot:</label>
+        <select
+          name="timeSlot"
+          value={timeSlot}
+          onChange={handleChange}
+          className={errors.timeSlot ? "error-input" : ""}
+        >
+          <option value="">Select a Time Slot</option>
+          <option value="12:00 PM">12:00 PM</option>
+          <option value="3:00 PM">3:00 PM</option>
+          <option value="6:00 PM">6:00 PM</option>
+          <option value="9:00 PM">9:00 PM</option>
+        </select>
+        {errors.timeSlot && <p className="error">{errors.timeSlot}</p>}
+
+        <label>Table:</label>
+        <select
+          name="tableId"
+          value={tableId}
+          onChange={handleChange}
+          className={errors.tableId ? "error-input" : ""}
+        >
+          <option value="">Select a Table</option>
           {tables.map((table) => (
             <option key={table._id} value={table._id}>
               Table {table.number} (Seats: {table.capacity})
             </option>
           ))}
         </select>
-        {errors.tableId && <span className="error-text">{errors.tableId}</span>}
+        {errors.tableId && <p className="error">{errors.tableId}</p>}
 
-        {/* Date */}
-        <label>Date:</label>
-        <input type="date" name="date" value={formData.date} onChange={handleChange} />
-        {errors.date && <span className="error-text">{errors.date}</span>}
-
-        {/* Time Slot */}
-        <label>Time Slot:</label>
-        <select name="timeSlot" value={formData.timeSlot} onChange={handleChange}>
-          <option value="">-- Select a Time Slot --</option>
-          {timeSlots.map((slot, index) => (
-            <option key={index} value={slot}>
-              {slot}
-            </option>
-          ))}
-        </select>
-        {errors.timeSlot && <span className="error-text">{errors.timeSlot}</span>}
-
-        {/* Buttons */}
-        <button type="submit" className="submit-btn" onClick={() => navigate('/reservations')}>Submit</button>
-        <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
+        <div className="button-group">
+          <button type="submit">Reserve Now</button>
+          <button type="button" className="cancel-button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   </div>

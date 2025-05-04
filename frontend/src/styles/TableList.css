@@ -1,85 +1,151 @@
-/* Apply styles only to TableList component */
+/* === Container & Page Layout === */
 .table-container {
-    width: 80%;
-    margin: auto;
-    text-align: center;
-    background-color: #f5f5dc; /* Beige Background */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  background-color: #FFFDD0; /* Cream */
+  font-family: 'Segoe UI', sans-serif;
+  color: #000;
+  min-height: 100vh;
+}
+
+/* === Header Section === */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.table-header h2 {
+  font-size: 2rem;
+  color: #D4AF37; /* Gold */
+}
+
+/* === Add Table Button === */
+.add-table-btn {
+  padding: 10px 20px;
+  background-color: #D4AF37; /* Gold */
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-table-btn:hover {
+  background-color: #FFA500; /* Orange */
+  color: #000;
+}
+
+/* === Table Layout === */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF; /* White */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.custom-table thead {
+  background-color: #D4AF37; /* Gold */
+  color: #fff;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 14px 18px;
+  text-align: center;
+  border-bottom: 1px solid #F5F5DC; /* Beige */
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #F5F5DC; /* Beige */
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #FFFFFF; /* White */
+}
+
+/* === Input Fields === */
+input[type="number"],
+select {
+  padding: 8px 10px;
+  font-size: 1rem;
+  width: 100%;
+  border: 1px solid #D4AF37;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  color: #000;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #FFA500; /* Orange on focus */
+}
+
+/* === Action Buttons === */
+.edit-btn,
+.save-btn,
+.delete-btn {
+  padding: 6px 12px;
+  margin: 4px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #D4AF37; /* Gold */
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #FFA500; /* Orange */
+  color: #000;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #FFA500; /* Orange */
+  color: #000;
+}
+
+.save-btn:hover {
+  background-color: #D4AF37; /* Gold */
+  color: #fff;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #000;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background-color: #FFA500;
+  color: #000;
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+  .custom-table th,
+  .custom-table td {
+    font-size: 0.9rem;
+    padding: 10px;
   }
-  
-  /* Header */
-  h2 {
-    color: #d4af37; /* Gold */
-    margin-bottom: 20px;
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
-  
-  /* Table Styling */
-  .custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background-color: white; /* White Table Background */
+
+  .add-table-btn {
+    align-self: flex-end;
   }
-  
-  .custom-table th, .custom-table td {
-    border: 1px solid #d4af37; /* Gold Borders */
-    padding: 12px;
-    text-align: center;
-  }
-  
-  .custom-table th {
-    background-color: #d4af37; /* Gold Header */
-    color: white;
-  }
-  
-  /* Input and Select Fields */
-  td input, td select {
-    width: 90%;
-    padding: 5px;
-    border: 1px solid #d4af37; /* Gold Border */
-    border-radius: 4px;
-    text-align: center;
-  }
-  
-  /* Button Styles */
-  button {
-    padding: 8px 12px;
-    margin: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: 4px;
-  }
-  
-  /* Edit Button */
-  .edit-btn {
-    background-color: #d4af37; /* Gold */
-    color: white;
-  }
-  
-  .edit-btn:hover {
-    background-color: #b5902c; /* Darker Gold */
-  }
-  
-  /* Save Button */
-  .save-btn {
-    background-color: #d4af37; /* Gold */
-    color: white;
-  }
-  
-  .save-btn:hover {
-    background-color: #b5902c; /* Darker Gold */
-  }
-  
-  /* Delete Button */
-  .delete-btn {
-    background-color: #dc3545; /* Red */
-    color: white;
-  }
-  
-  .delete-btn:hover {
-    background-color: #a71d2a; /* Darker Red */
-  }
-  
+}

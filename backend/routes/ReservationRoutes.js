@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const ReservationController = require("../controllers/ReservationController");
+const { protect } = require("../middleware/authMiddleware");
 
-// ✅ Create a new reservation
-router.post("/", ReservationController.createReservation);
+// User routes
+router.post("/", protect, ReservationController.createReservation);
+router.get("/my", protect, ReservationController.getMyReservations);
+router.put("/:id", protect, ReservationController.updateReservation);
+router.delete("/:id", protect, ReservationController.deleteReservation);
+router.get("/check-availability", ReservationController.checkAvailability);
 
-// ✅ Get all reservations
-router.get("/", ReservationController.getAllReservations);
 
-// ✅ Get a reservation by ID
-router.get("/:id", ReservationController.getReservationById);
 
-// ✅ Update a reservation
-router.put("/:id", ReservationController.updateReservation);
-
-// ✅ Delete a reservation
-router.delete("/:id", ReservationController.deleteReservation);
+// Staff
+router.get("/", protect, ReservationController.getAllReservations); // Add role-check if needed
+router.patch("/status/:id", protect, ReservationController.updateReservationStatus);
+router.get("/:id", protect, ReservationController.getReservationById);
 
 module.exports = router;

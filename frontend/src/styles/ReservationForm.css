@@ -1,50 +1,144 @@
 
+.reservation-page-bg {
+  background: url("../assets/bg-tables.jpg") no-repeat center center/cover;
+  min-height: 100vh;
+  padding-top: 30px;
+}
 
-.reservation-container {
-    width: 50%;
-    margin: auto;
-    background-color: #f5f5dc; /* Beige */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  h2 {
-    color: #d4af37; /* Gold */
-  }
-  
-  label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  
-  input, select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #d4af37; /* Gold */
-    border-radius: 4px;
-  }
-  
-  .error-input {
-    border: 1px solid red;
-  }
-  
-  .error-text {
-    color: red;
-    font-size: 12px;
-  }
-  
-  .submit-btn {
-    background-color: #28a745; /* Green */
-    color: white;
-  }
-  
-  .cancel-btn {
-    background-color: #ff8c00; /* Orange */
-    color: white;
-  }
-  
 
-  
+/* ✅ Reservation Form Container */
+.reservation-form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #FFFFFF; /* White */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* ✅ Heading */
+h2 {
+  color: #DAA520; /* Gold */
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* ✅ Success/Error Messages */
+.message {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.message.success {
+  color: #228B22; /* Green for success */
+}
+
+.message.error {
+  color: #B22222; /* Dark red for errors */
+}
+
+/* ✅ Form Styling */
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reservation-form label {
+  font-weight: bold;
+  color: #222; /* Black */
+  text-align: left;
+}
+
+.reservation-form input,
+.reservation-form select {
+  padding: 10px;
+  border: 1px solid #DAA520; /* Gold border */
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #FFF; /* White */
+  color: #222; /* Black */
+  outline: none;
+}
+
+.reservation-form input:focus,
+.reservation-form select:focus {
+  border-color: #FF8C00; /* Orange */
+}
+
+/* ✅ Error Messages */
+.error {
+  color: #B22222; /* Dark red */
+  font-size: 14px;
+  margin-top: -8px;
+  text-align: left;
+}
+
+/* ✅ Buttons */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.reservation-form button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ✅ Submit Button */
+button[type="submit"] {
+  background: #DAA520; /* Gold */
+  color: #FFF;
+}
+
+button[type="submit"]:hover {
+  background: #FF8C00; /* Orange */
+}
+
+/* ✅ Cancel Button */
+.cancel-button {
+  background: #B22222; /* Dark Red */
+  color: white;
+  margin-left: 10px;
+}
+
+.cancel-button:hover {
+  background: #8B0000; /* Darker Red */
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 600px) {
+  .reservation-form-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.readonly-blue {
+  background-color: #f5f5dc; /* Beige */
+  color: #000;
+  font-weight: bold;
+  border: 1px solid #d4af37; /* Gold */
+}
+
+.welcome-message {
+  font-size: 1.1rem;
+  color: #D4AF37; /* Gold */
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+

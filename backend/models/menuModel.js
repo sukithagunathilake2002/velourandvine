@@ -5,8 +5,8 @@ const menuSchema = new mongoose.Schema({
     category: { 
         type: String, 
         required: true,
-        enum: ["Appetizers", "Main Courses", "Salads", "Desserts", "Vine Selection", "Signature Cocktails"] 
-    },
+        enum: ["Appetizers", "Main Courses", "Salads", "Desserts", "Wine Selection", "Signature Cocktails"]
+      },
     description: { type: String },
     price: { type: Number, required: true },
     image: { type: String }, // Image URL

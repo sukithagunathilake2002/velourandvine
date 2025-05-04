@@ -20,10 +20,10 @@ const Navbar = () => {
       <ul className="nav-links">
         <li><Link to="/">HOME</Link></li>
         <li><Link to="/AboutUs">ABOUT US</Link></li>
-        <li><Link to="/Menu">MENU</Link></li>
+        <li><Link to="/customermenu">MENU</Link></li>
         <li><Link to="/order">ORDER</Link></li>
+        <li><Link to="/cuntactus">CONTACT US</Link></li>
         <li><Link to="/reservationlanding">RESERVATION</Link></li>
-        <li><Link to="/contact">CONTACT US</Link></li>
       </ul>
 
       {/* Right Section: Cart & Profile */}
